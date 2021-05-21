@@ -1,13 +1,13 @@
 package model;
 
-public class authtoken {
+public class Authtoken {
     private String associatedUsername;
     private String authtoken;
 
-    public authtoken() {
+    public Authtoken() {
     }
 
-    public authtoken(String associatedUsername, String authtoken) {
+    public Authtoken(String associatedUsername, String authtoken) {
         this.associatedUsername = associatedUsername;
         this.authtoken = authtoken;
     }

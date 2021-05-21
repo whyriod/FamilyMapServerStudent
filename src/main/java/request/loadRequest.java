@@ -1,41 +1,41 @@
 package request;
 
-import model.event;
-import model.person;
-import model.user;
+import model.Event;
+import model.Person;
+import model.User;
 
 public class loadRequest {
-    private user[] users;
-    private person[] persons;
-    private event[] events ;
+    private User[] users;
+    private Person[] persons;
+    private Event[] events ;
 
-    public loadRequest(user[] users, person[] persons, event[] events) {
+    public loadRequest(User[] users, Person[] persons, Event[] events) {
         this.users = users;
         this.persons = persons;
         this.events = events;
     }
 
-    public user[] getUsers() {
+    public User[] getUsers() {
         return users;
     }
 
-    public void setUsers(user[] users) {
+    public void setUsers(User[] users) {
         this.users = users;
     }
 
-    public person[] getPersons() {
+    public Person[] getPersons() {
         return persons;
     }
 
-    public void setPersons(person[] persons) {
+    public void setPersons(Person[] persons) {
         this.persons = persons;
     }
 
-    public event[] getEvents() {
+    public Event[] getEvents() {
         return events;
     }
 
-    public void setEvents(event[] events) {
+    public void setEvents(Event[] events) {
         this.events = events;
     }
 }

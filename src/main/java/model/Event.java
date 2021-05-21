@@ -1,6 +1,6 @@
 package model;
 
-public class event {
+public class Event {
     private String eventID;
     private String eventType;
     private String personID;
@@ -11,10 +11,9 @@ public class event {
     private float latitude;
     private float longitude;
 
-    public event() {
-    }
+    public Event() { }
 
-    public event(String eventID, String eventType, String personID, String associatedUsername,
+    public Event(String eventID, String eventType, String personID, String associatedUsername,
                  int year, String country, String city, float latitude, float longitude) {
         this.eventID = eventID;
         this.eventType = eventType;

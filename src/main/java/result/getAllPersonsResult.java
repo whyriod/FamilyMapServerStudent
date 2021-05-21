@@ -1,14 +1,16 @@
 package result;
 
+import passoffmodels.Person;
+
 public class getAllPersonsResult {
-    private String data;
+    private Person[] data;
     private String message;
     private boolean success;
 
     /***
      * Success Constructor
      */
-    public getAllPersonsResult(String data, boolean success) {
+    public getAllPersonsResult(Person [] data, boolean success) {
         this.data = data;
         this.success = success;
     }

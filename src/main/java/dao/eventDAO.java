@@ -1,6 +1,6 @@
 package dao;
 
-import model.event;
+import model.Event;
 
 public class eventDAO{
 
@@ -9,7 +9,7 @@ public class eventDAO{
      * @param eventID
      * @return
      */
-    private event getEvent(String eventID){
+    private Event fetchEvent(String eventID){
         return null;
     }
 
@@ -18,7 +18,7 @@ public class eventDAO{
      * @param personID
      * @return event[] of all events of personID type
      */
-    private event[] getAllEvents(String personID){
+    private Event[] fetchAllEvents(String personID){
         return null;
     }
 
@@ -27,7 +27,7 @@ public class eventDAO{
      * @param eventID
      * @return
      */
-    private event createEvent(String eventID){
+    private Event insertEvent(String eventID){
         return null;
     }
 
@@ -35,7 +35,7 @@ public class eventDAO{
      * Delete all events in the database
      * @return
      */
-    private boolean clear(){
-        return false;
+    private void clear(){
+
     }
 }

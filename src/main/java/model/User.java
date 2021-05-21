@@ -1,18 +1,18 @@
 package model;
 
-public class user {
+public class User {
     private String personID;
     private String username;
     private String password;
     private String email;
     private String firstName;
     private String lastName;
-    private char gender;
+    private String gender;
 
-    public user(){
+    public User(){
     }
 
-    public user(String personID, String userName, String password, String email, String firstName, String lastName, char gender){
+    public User(String personID, String userName, String password, String email, String firstName, String lastName, String gender){
         this.personID = personID;
         this.username = userName;
         this.password = password;
@@ -70,11 +70,11 @@ public class user {
         this.lastName = lastName;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 }

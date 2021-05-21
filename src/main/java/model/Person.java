@@ -1,20 +1,20 @@
 package model;
 
-public class person {
+public class Person {
     private String personID;
     private String associatedUsername;
     private String firstName;
     private String lastName;
-    private char gender;
+    private String gender;
     private String fatherID;
     private String motherID;
     private String spouseID;
 
-    public person(){
+    public Person(){
     }
 
-    public person(String personID, String associatedUsername, String firstName, String lastName,
-                  char gender, String fatherID, String motherID, String spouseID) {
+    public Person(String personID, String associatedUsername, String firstName, String lastName,
+                  String gender, String fatherID, String motherID, String spouseID) {
         this.personID = personID;
         this.associatedUsername = associatedUsername;
         this.firstName = firstName;
@@ -25,7 +25,7 @@ public class person {
         this.spouseID = spouseID;
     }
 
-    public person(user user){
+    public Person(User user){
         personID = user.getPersonID();
         associatedUsername = user.getUsername();
         firstName = user.getFirstName();
@@ -65,11 +65,11 @@ public class person {
         this.lastName = lastName;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

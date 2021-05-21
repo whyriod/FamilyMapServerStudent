@@ -1,6 +1,6 @@
 package dao;
 
-import model.authtoken;
+import model.Authtoken;
 
 /***
  * Performs authtoken operations on the authtoken table
@@ -11,7 +11,7 @@ public class authtokenDAO {
      * Authenticate the authtoken.
      * @param authToken
      */
-    private authtoken authenticate(authtoken authToken){
+    private Authtoken fetch(Authtoken authToken){
         return null;
     }
 
@@ -19,7 +19,7 @@ public class authtokenDAO {
      * Clears all authtokens from the database
      * @return
      */
-    private boolean clear(){
-        return false;
+    private void clear(){
+
     }
 }
