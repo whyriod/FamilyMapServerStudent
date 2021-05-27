@@ -548,7 +548,7 @@ public class ServerTest {
             PersonsResult personsResult = proxy.persons(host, port, registerResult.getAuthtoken());
             //Here we are getting the Person information for the user sheila
             Person userPerson = personsResult.getPerson(registerResult.getPersonID());
-            //Checks to make sure the right amount of people were added to the database after the register service
+            //Checks to make sure the right amount of people were added to the handler.database after the register service
             checkPersonsParents(personsResult, userPerson, "User", 3);
         } catch (ServerConnectionException e) {
             fail(e.getMessage());
@@ -575,7 +575,7 @@ public class ServerTest {
             EventsResult eventsResult = proxy.events(host, port, registerResult.getAuthtoken());
             //Here we are getting the Person information for the user sheila
             Person userPerson = personsResult.getPerson(registerResult.getPersonID());
-            //If person is null then a Person Object was not created for the user and inserted into the database
+            //If person is null then a Person Object was not created for the user and inserted into the handler.database
             assertNotNull(userPerson, "User's Person not included in passoffresult");
             //Checks for all the required birth events and makes sure the years make sense
             checkPersonsBirth(eventsResult, personsResult, userPerson, "User", 3);
@@ -604,15 +604,15 @@ public class ServerTest {
             EventsResult eventsResult = proxy.events(host, port, registerResult.getAuthtoken());
             //Here we are getting the Person information for the user sheila
             Person userPerson = personsResult.getPerson(registerResult.getPersonID());
-            //If person1 is null then a Person Object was not created for the user and inserted into the database
+            //If person1 is null then a Person Object was not created for the user and inserted into the handler.database
             assertNotNull(userPerson, "User's Person not included in passoffresult");
             //Here we are getting the Person information for sheila's father
             Person userFather = personsResult.getPerson(userPerson.getFatherID());
             //Here we are getting the Person information for sheila's mother
             Person userMother = personsResult.getPerson(userPerson.getMotherID());
-            //If person2 is null then a Person Object was not created for the user's father and inserted into the database
+            //If person2 is null then a Person Object was not created for the user's father and inserted into the handler.database
             assertNotNull(userFather, "User's Father's Person not included in passoffresult");
-            //If person3 is null then a Person Object was not created for the user's mother and inserted into the database
+            //If person3 is null then a Person Object was not created for the user's mother and inserted into the handler.database
             assertNotNull(userMother, "User's Mother's Person not included in passoffresult");
             //Checks for all the required death events for the user's mother's side and makes sure the years make sense
             checkPersonsDeath(eventsResult, personsResult, userMother, "User's mother", 3);
@@ -643,7 +643,7 @@ public class ServerTest {
             EventsResult eventsResult = proxy.events(host, port, registerResult.getAuthtoken());
             //Here we are getting the Person information for the user sheila
             Person userPerson = personsResult.getPerson(registerResult.getPersonID());
-            //If person is null then a Person Object was not created for the user and inserted into the database
+            //If person is null then a Person Object was not created for the user and inserted into the handler.database
             assertNotNull(userPerson, "User's Person not included in passoffresult");
             //Checks for all the required marriage events for all children's parents, ensures the years make sense,
             //and that the marriage is in the same location/year for each couple.
@@ -727,11 +727,11 @@ public class ServerTest {
             String[] message = result.getMessage().split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
             //Checks to be sure the fillResult message starts with the phrase "Successfully added "
             Assertions.assertEquals("Successfully added ", message[0], "First part of passoffresult message does not match API");
-            //Checks to be sure the fillResult message confirms that 31 people were added into the database
+            //Checks to be sure the fillResult message confirms that 31 people were added into the handler.database
             Assertions.assertTrue(minimumPeople <= Integer.parseInt(message[1]), "Not enough people added");
             //Checks to be sure the fillResult message has the phrase " persons and " in between listing the number of people and the number of events
             Assertions.assertEquals(" persons and ", message[2], "Second part of passoffresult message does not match API");
-            //Checks to be sure the fillResult message confirms that 91 events were added into the database
+            //Checks to be sure the fillResult message confirms that 91 events were added into the handler.database
             Assertions.assertTrue(minEvents <= Integer.parseInt(message[3]), "Not enough events added");
         } catch (ServerConnectionException e) {
             fail(e.getMessage());
@@ -767,11 +767,11 @@ public class ServerTest {
             String[] message = result.getMessage().split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
             //Checks to be sure the fillResult message starts with the phrase "Successfully added "
             Assertions.assertEquals("Successfully added ", message[0], "First part of passoffresult message does not match API");
-            //Checks to be sure the fillResult message confirms that 7 people were added into the database
+            //Checks to be sure the fillResult message confirms that 7 people were added into the handler.database
             Assertions.assertTrue(minimumPeople <= Integer.parseInt(message[1]), "Not enough people added");
             //Checks to be sure the fillResult message has the phrase " persons and " in between listing the number of people and the number of events
             Assertions.assertEquals(" persons and ", message[2], "Second part of passoffresult message does not match API");
-            //Checks to be sure the fillResult message confirms that 19 events were added into the database
+            //Checks to be sure the fillResult message confirms that 19 events were added into the handler.database
             Assertions.assertTrue(minEvents <= Integer.parseInt(message[3]), "Not enough events added");
         } catch (ServerConnectionException e) {
             fail(e.getMessage());
@@ -807,11 +807,11 @@ public class ServerTest {
             String[] message = result.getMessage().split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
             //Checks to be sure the fillResult message starts with the phrase "Successfully added "
             Assertions.assertEquals("Successfully added ", message[0], "First part of passoffresult message does not match API");
-            //Checks to be sure the fillResult message confirms that 63 people were added into the database
+            //Checks to be sure the fillResult message confirms that 63 people were added into the handler.database
             Assertions.assertTrue(minimumPeople <= Integer.parseInt(message[1]), "Not enough people added");
             //Checks to be sure the fillResult message has the phrase " persons and " in between listing the number of people and the number of events
             Assertions.assertEquals(" persons and ", message[2], "Second part of passoffresult message does not match API");
-            //Checks to be sure the fillResult message confirms that 187 events were added into the database
+            //Checks to be sure the fillResult message confirms that 187 events were added into the handler.database
             Assertions.assertTrue(minEvents <= Integer.parseInt(message[3]), "Not enough events added");
         } catch (ServerConnectionException e) {
             fail(e.getMessage());
@@ -851,15 +851,15 @@ public class ServerTest {
             String[] message = result.getMessage().split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
             //Checks to be sure the loadResult message starts with the phrase "Successfully added "
             Assertions.assertEquals("Successfully added ", message[0], "First part of passoffresult message does not match API");
-            //Checks to be sure the loadResult message confirms that 2 users were added into the database
+            //Checks to be sure the loadResult message confirms that 2 users were added into the handler.database
             Assertions.assertEquals(users, Integer.parseInt(message[1]), "Incorrect number of users added");
             //Checks to be sure the loadResult message has the phrase " users, " in between listing the number of users and the number of persons
             Assertions.assertEquals(" users, ", message[2], "Second part of passoffresult message does not match API");
-            //Checks to be sure the loadResult message confirms that 11 people were added into the database
+            //Checks to be sure the loadResult message confirms that 11 people were added into the handler.database
             Assertions.assertEquals(persons, Integer.parseInt(message[3]), "Incorrect number of persons added");
             //Checks to be sure the loadResult message has the phrase " persons, and " in between listing the number of persons and the number of events
             Assertions.assertEquals(" persons, and ", message[4], "Third part of passoffresult message does not match API");
-            //Checks to be sure the loadResult message confirms that 19 events were added into the database
+            //Checks to be sure the loadResult message confirms that 19 events were added into the handler.database
             Assertions.assertEquals(events, Integer.parseInt(message[5]), "Incorrect number of events added");
         } catch (FileNotFoundException e) {
             Assertions.fail("passoffFiles/LoadData.json not found in project root directory");
@@ -994,19 +994,19 @@ public class ServerTest {
             assertTrue(clearResult.getMessage().toLowerCase().contains("clear succeeded"), "Clear message did not contain the APIs success message");
             //We are calling the login api for a user named sheila
             LoginResult loginResult = proxy.login(host, port, loginRequest);
-            //The database is empty so trying to login at all is invalid, this checks to make sure loginResult2 reflects that
+            //The handler.database is empty so trying to login at all is invalid, this checks to make sure loginResult2 reflects that
             assertFailedLogin(loginResult);
             //We are calling the login api for a user named patrick
             loginResult = proxy.login(host, port, loginRequest2);
-            //The database is empty so trying to login at all is invalid, this checks to make sure loginResult2 reflects that
+            //The handler.database is empty so trying to login at all is invalid, this checks to make sure loginResult2 reflects that
             assertFailedLogin(loginResult);
             //We are calling the get all people api for the user sheila (we are using the authtoken variable from loginResult1 near the beginning of this test)
             PersonsResult personsResult = proxy.persons(host, port, oldLoginResult.getAuthtoken());
-            //The database is empty so trying to get a list of people is invalid, this checks to make sure personsResult reflects that
+            //The handler.database is empty so trying to get a list of people is invalid, this checks to make sure personsResult reflects that
             assertFailedPersons(personsResult);
             //We are calling the get all events api for the user sheila (we are using the authtoken variable from loginResult1 near the beginning of this test)
             EventsResult eventsResult = proxy.events(host, port, oldLoginResult.getAuthtoken());
-            //The database is empty so trying to get a list of events is invalid, this checks to make sure eventsResult reflects that
+            //The handler.database is empty so trying to get a list of events is invalid, this checks to make sure eventsResult reflects that
             assertFailedEvents(eventsResult);
         } catch (ServerConnectionException e) {
             fail(e.getMessage());
@@ -1177,7 +1177,7 @@ public class ServerTest {
     }
 
     /**
-     * Uses the LoadData.json file to create information in the database which
+     * Uses the LoadData.json file to create information in the handler.database which
      * the test that called this function can then use. It does this by sending
      * sending a Load API request to the student's server. The body of said
      * request would contain the information listed in LoadData.json.

@@ -15,7 +15,7 @@ class personDAOTest {
 
     private Database db;
     private Person actual;
-    private personDAO pDAO;
+    private PersonDAO pDAO;
     //5 Test Cases
 
     @BeforeAll
@@ -32,7 +32,7 @@ class personDAOTest {
         db = new Database();
         actual = null;
         Connection conn = db.getConnection();
-        pDAO = new personDAO(conn);
+        pDAO = new PersonDAO(conn);
     }
 
     @AfterEach

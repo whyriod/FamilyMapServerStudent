@@ -14,7 +14,7 @@ class userDAOTest {
 
     private Database db;
     private User actual;
-    private userDAO uDAO;
+    private UserDAO uDAO;
     //5 Test Cases
 
     @BeforeEach
@@ -24,7 +24,7 @@ class userDAOTest {
         db = new Database();
         actual = null;
         Connection conn = db.getConnection();
-        uDAO = new userDAO(conn);
+        uDAO = new UserDAO(conn);
     }
 
     @AfterEach

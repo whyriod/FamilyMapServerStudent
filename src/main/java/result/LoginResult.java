@@ -1,0 +1,82 @@
+package result;
+
+public class LoginResult {
+
+//    Success Response Body:
+//    {
+//      "authtoken": "cf7a368f",	// Non-empty auth token string
+//      "username": "susan",		// Username passed in with request
+//      "personID": "39f9fe46"	// Non-empty string containing the Person ID of the user’s generated Person object
+//      “success”:true		// Boolean identifier
+//    }
+//    Error Response Body:
+//    {
+//	    “message”: “Error: [Description of the error]”
+//        “success”:false		// Boolean identifier
+//    }
+
+
+    private String authtoken;
+    private String username;
+    private String personID;
+    private boolean success;
+    private String message;
+
+    /***
+     * Success Constructor
+     */
+    public LoginResult(String authtoken, String username, String personID, boolean success) {
+        this.authtoken = authtoken;
+        this.username = username;
+        this.personID = personID;
+        this.success = success;
+    }
+
+    /***
+     * Error Constructor
+     */
+    public LoginResult(boolean success, String message) {
+        this.success = success;
+        this.message = message;
+    }
+
+    public String getAuthtoken() {
+        return authtoken;
+    }
+
+    public void setAuthtoken(String authtoken) {
+        this.authtoken = authtoken;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPersonID() {
+        return personID;
+    }
+
+    public void setPersonID(String personID) {
+        this.personID = personID;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+}

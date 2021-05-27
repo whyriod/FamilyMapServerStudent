@@ -1,23 +1,23 @@
 package model;
 
 public class Authtoken {
-    private String associatedUsername;
+    private String username;
     private String authtoken;
 
     public Authtoken() {
     }
 
     public Authtoken(String associatedUsername, String authtoken) {
-        this.associatedUsername = associatedUsername;
+        this.username = associatedUsername;
         this.authtoken = authtoken;
     }
 
-    public String getassociatedUsername() {
-        return associatedUsername;
+    public String getusername() {
+        return username;
     }
 
-    public void setassociatedUsername(String associatedUsername) {
-        this.associatedUsername = associatedUsername;
+    public void setusername(String username) {
+        this.username = username;
     }
 
     public String getauthtoken() {
