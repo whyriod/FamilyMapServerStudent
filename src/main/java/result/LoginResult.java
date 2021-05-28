@@ -1,18 +1,22 @@
 package result;
 
+/***
+ * Creates a LoginResult object to return an Authtoken, username, and personID
+ * based on db operation.
+ */
 public class LoginResult {
 
 //    Success Response Body:
 //    {
-//      "authtoken": "cf7a368f",	// Non-empty auth token string
-//      "username": "susan",		// Username passed in with request
-//      "personID": "39f9fe46"	// Non-empty string containing the Person ID of the user’s generated Person object
-//      “success”:true		// Boolean identifier
+//       "authtoken": "cf7a368f",	// Non-empty auth token string
+//       "username": "susan",		// Username passed in with request
+//       "personID": "39f9fe46"	// Non-empty string containing the Person ID of the user’s generated Person object
+//       “success”:true		// Boolean identifier
 //    }
 //    Error Response Body:
 //    {
-//	    “message”: “Error: [Description of the error]”
-//        “success”:false		// Boolean identifier
+//	     “message”: “Error: [Description of the error]”
+//       “success”:false		// Boolean identifier
 //    }
 
 
@@ -24,6 +28,10 @@ public class LoginResult {
 
     /***
      * Success Constructor
+     * @param authtoken - Authtoken for logging in user
+     * @param username - Username for user
+     * @param personID - PersonId of user
+     * @param success - Boolean of success
      */
     public LoginResult(String authtoken, String username, String personID, boolean success) {
         this.authtoken = authtoken;
@@ -34,10 +42,12 @@ public class LoginResult {
 
     /***
      * Error Constructor
+     * @param message - “Error: [Description of the error]”
+     * @param success - Boolean of success
      */
-    public LoginResult(boolean success, String message) {
-        this.success = success;
+    public LoginResult(String message, boolean success) {
         this.message = message;
+        this.success = success;
     }
 
     public String getAuthtoken() {

@@ -1,5 +1,9 @@
 package model;
 
+
+/***
+ * The User class is a representation of the User sqlite table.
+ */
 public class User {
     private String personID;
     private String username;
@@ -9,9 +13,17 @@ public class User {
     private String lastName;
     private String gender;
 
-    public User(){
-    }
 
+    /***
+     * Constructor
+     * @param personID - ID of the user
+     * @param userName - Username of user
+     * @param password - Password of user.
+     * @param email - Email of user.
+     * @param firstName - First name of user.
+     * @param lastName - Last name of user.
+     * @param gender - sex of user.
+     */
     public User(String personID, String userName, String password, String email, String firstName, String lastName, String gender){
         this.personID = personID;
         this.username = userName;

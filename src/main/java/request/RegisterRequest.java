@@ -1,15 +1,10 @@
 package request;
 
+/***
+ * Creates a request to register a new User given a: username, password
+ * email, firstName, lastName, and gender. These are found in the reqBody.
+ */
 public class RegisterRequest {
-
-//    {
-//        "username": "susan",		// Non-empty string
-//        "password": "mysecret",	// Non-empty string
-//        "email": "susan@gmail.com",	// Non-empty string
-//        "firstName": "Susan",		// Non-empty string
-//        "lastName": "Ellis",		// Non-empty string
-//        "gender": "f"			// “f” or “m”
-//    }
 
     private String username;
     private String password;
@@ -18,6 +13,15 @@ public class RegisterRequest {
     private String lastName;
     private char gender;
 
+    /***
+     * Constructor
+     * @param username - New username to register
+     * @param password - Password for new account
+     * @param email - Email for new account
+     * @param firstName - Firstname of user
+     * @param lastName - Lastname of user
+     * @param gender - Sex of user
+     */
     public RegisterRequest(String username, String password, String email, String firstName, String lastName, char gender) {
         this.username = username;
         this.password = password;

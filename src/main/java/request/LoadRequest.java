@@ -4,18 +4,23 @@ import model.Event;
 import model.Person;
 import model.User;
 
+/***
+ * Creates a request to load an array of users, persons, and events into
+ * the Database. These are found in the reqBody.
+ */
 public class LoadRequest {
 
-//  {
-//	    “users”: [  /* Array of User objects */ ],
-//	    “persons”: [  /* Array of Person objects */  ],
-//	    “events”: [  /* Array of Event objects */  ]
-//  }
 
     private User[] users;
     private Person[] persons;
     private Event[] events ;
 
+    /***
+     * Constructor
+     * @param users - Array of users from ReqBody
+     * @param persons - Array of persons from ReqBody
+     * @param events - Array of events from ReqBody
+     */
     public LoadRequest(User[] users, Person[] persons, Event[] events) {
         this.users = users;
         this.persons = persons;

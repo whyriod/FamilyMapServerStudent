@@ -41,15 +41,15 @@ public class Server {
         server.createContext("/", new fileHandler());
         //Delete all rows from databse
         server.createContext("/clear", new clearHandler());
-        //Load provided User, Person, and Event data
-        server.createContext("/load", new loadHandler());
-        //Populate X generations for provided user. Default 4
-        server.createContext("/fill", new fillHandler());
+//        //Load provided User, Person, and Event data
+//        server.createContext("/load", new loadHandler());
+//        //Populate X generations for provided user. Default 4
+//        server.createContext("/fill", new fillHandler());
 
 
         ////////// User Handlers \\\\\\\\\\
-//        server.createContext("/", new loginHandler());
-//        server.createContext("/", new registerHandler());
+        server.createContext("/user/login", new loginHandler());
+        server.createContext("/user/register", new registerHandler());
 //        server.createContext("/", new eventHandler());
 //        server.createContext("/", new personHandler());
 

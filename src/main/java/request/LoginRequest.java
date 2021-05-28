@@ -1,16 +1,19 @@
 package request;
 
+/***
+ * Creates a request to login in a user given a username and password.
+ * These are found in the reqBody.
+ */
 public class LoginRequest {
-
-//    Request Body:
-//    {
-//        "username": "susan",		// Non-empty string
-//        "password": "mysecret"	// Non-empty string
-//    }
 
     private String username;
     private String password;
 
+    /***
+     * Constructor
+     * @param username - Username to login
+     * @param password - Password of user
+     */
     public LoginRequest(String username, String password) {
         this.username = username;
         this.password = password;

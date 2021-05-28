@@ -11,48 +11,47 @@ import service.LoadService;
 import cereal.*;
 
 public class loadHandler implements HttpHandler {
-    ////POST
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        //Assume the worst
-        boolean success = false;
-
+        //Try to handle the request
         try {
             //If its a post request
             if(exchange.getRequestMethod().toLowerCase().equals("post")) {
-                Gson gson = new Gson();
-                Cereal decereal = new Cereal();
 
                 // Get the request body input stream
                 InputStream reqBody = exchange.getRequestBody();
                 // Read JSON string from the input stream
-                String reqData = decereal.readString(reqBody);
+                Cereal cereal = new Cereal();
+                String reqData = cereal.readString(reqBody);
 
+                //Create the request and attempt the service
+                Gson gson = new Gson();
                 LoadRequest request = (LoadRequest) gson.fromJson(reqData,LoadRequest.class);
-                //Access the Clear service.
                 LoadService load = new LoadService();
                 LoadResult result = load.loadDatabase(request);
 
+                //Send Response: 200
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                 Writer respBody = new OutputStreamWriter(exchange.getResponseBody());
                 gson.toJson(result, respBody);
                 respBody.close();
-                success = true;
             }
+
             //Faulty Request
-            if(!success){
+            else{
+                //Send Response: 404
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
                 exchange.getResponseBody().close();
             }
         }
         //Internal Error
         catch(IOException e) {
+            //Send Response: 500
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
             exchange.getResponseBody().close();
             e.printStackTrace();
         }
     }
-
 }

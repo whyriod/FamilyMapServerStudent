@@ -1,5 +1,8 @@
 package model;
 
+/***
+ * The Event class is a representation of the Event sqlite table
+ */
 public class Event {
     private String eventID;
     private String eventType;
@@ -11,8 +14,20 @@ public class Event {
     private float latitude;
     private float longitude;
 
-    public Event() { }
 
+    /***
+     * Constructor
+     *
+     * @param eventID - Id of the event
+     * @param eventType - Event-types: birth, baptism, christening, marriage, death
+     * @param personID - ID of the person the event is for.
+     * @param associatedUsername - Username of the person the event is for.
+     * @param year - When the event occurred
+     * @param country - Which country the event occurred in
+     * @param city - Which city the event occurred in
+     * @param latitude - Coordinates for city
+     * @param longitude- Coordinates for city
+     */
     public Event(String eventID, String eventType, String personID, String associatedUsername,
                  int year, String country, String city, float latitude, float longitude) {
         this.eventID = eventID;
@@ -26,75 +41,75 @@ public class Event {
         this.longitude = longitude;
     }
 
-    public String geteventID() {
+    public String getEventID() {
         return eventID;
     }
 
-    public void seteventID(String eventID) {
-        eventID = eventID;
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
     }
 
-    public String geteventType() {
+    public String getEventType() {
         return eventType;
     }
 
-    public void seteventType(String eventType) {
-        eventType = eventType;
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
 
-    public String getpersonID() {
+    public String getPersonID() {
         return personID;
     }
 
-    public void setpersonID(String personID) {
-        personID = personID;
+    public void setPersonID(String personID) {
+        this.personID = personID;
     }
 
-    public String getassociatedUsername() {
+    public String getAssociatedUsername() {
         return associatedUsername;
     }
 
-    public void setassociatedUsername(String associatedUsername) {
-        associatedUsername = associatedUsername;
+    public void setAssociatedUsername(String associatedUsername) {
+        this.associatedUsername = associatedUsername;
     }
 
-    public int getyear() {
+    public int getYear() {
         return year;
     }
 
-    public void setyear(int year) {
-        year = year;
+    public void setYear(int year) {
+        this.year = year;
     }
 
-    public String getcountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setcountry(String country) {
-        country = country;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public String getcity() {
+    public String getCity() {
         return city;
     }
 
-    public void setcity(String city) {
-        city = city;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public float getlatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setlatitude(float latitude) {
-        latitude = latitude;
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
     }
 
-    public float getlongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setlongitude(float longitude) {
-        longitude = longitude;
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 }

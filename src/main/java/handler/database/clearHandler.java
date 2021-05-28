@@ -9,15 +9,11 @@ import result.ClearResult;
 import service.ClearService;
 
 public class clearHandler implements HttpHandler {
-    ////POST
-
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        //Assume the worst
-        boolean success = false;
-
+        //Try to handle the request
         try {
             //If its a post request
             if(exchange.getRequestMethod().toLowerCase().equals("post")) {
@@ -25,25 +21,23 @@ public class clearHandler implements HttpHandler {
                 ClearService clear = new ClearService();
                 ClearResult result = clear.clearDatabase();
 
+                //Send Response: 200
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                 Writer respBody = new OutputStreamWriter(exchange.getResponseBody());
                 Gson gson = new Gson();
                 gson.toJson(result, respBody);
                 respBody.close();
-//                OutputStream respBody = exchange.getResponseBody();
-//                Gson gson = new Gson();
-//                gson.toJson(result, (Appendable) respBody);
-//                respBody.close();
-//                success = true;
             }
-            //Faulty Request
-            if(!success){
+            //Faulty request
+            else{
+                //Send Response: 404
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
                 exchange.getResponseBody().close();
             }
         }
         //Internal Error
         catch(IOException e) {
+            //Send Response: 500
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
             exchange.getResponseBody().close();
             e.printStackTrace();

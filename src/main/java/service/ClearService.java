@@ -8,6 +8,11 @@ import java.sql.Connection;
 
 public class ClearService {
 
+    //Notes
+    //String str = exchange.getRequestURI.toString();
+    //Get sTring array segments -  .split("/");
+    //Check lengths, this lets you know whats in there.
+
     private Database db;
     private AuthTokenDAO aDAO;
     private EventDAO eDAO;
@@ -32,25 +37,34 @@ public class ClearService {
      * @return clearResult object
      */
     public ClearResult clearDatabase() {
+
         ClearResult clear;
+
         try{
+            //Attempt to Clear
             try{
+                //Setup DB connections and clear tables
                 setUp();
                 aDAO.clear();
                 eDAO.clear();
                 pDAO.clear();
                 uDAO.clear();
+                //Commit changes
                 db.closeConnection(true);
-                clear = new ClearResult("Clear succeeded. Changes committed",true);
+                clear = new ClearResult("Clear succeeded.",true);
             }
+            //Clear Failed
             catch (ClassNotFoundException | DataAccessException e) {
-                e.printStackTrace();
+                //Rollback changes
                 db.closeConnection(false);
-                clear = new ClearResult("Clear Failed. Changes rolled back",false);
+                clear = new ClearResult(("Error: " + e.getMessage()),false);
+                e.printStackTrace();
             }
         }
+        //Connection close failed
         catch(DataAccessException e){
-            clear = new ClearResult("Clear Failed. Unable to close DB connection", false);
+            clear = new ClearResult(("Error: " + e.getMessage()), false);
+            e.printStackTrace();
         }
         return clear;
     }

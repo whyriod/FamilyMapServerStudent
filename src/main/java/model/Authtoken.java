@@ -1,16 +1,27 @@
 package model;
 
+/***
+* The Authtoken class is a representation of the Authtoken sqlite table
+*/
 public class Authtoken {
-    private String username;
+
     private String authtoken;
+    private String username;
 
-    public Authtoken() {
-    }
 
-    public Authtoken(String associatedUsername, String authtoken) {
-        this.username = associatedUsername;
+
+    /***
+     * Constructor.
+     * @param associatedUsername - Username of person logging in
+     * @param authtoken - AuthToken for that user
+     */
+    public Authtoken(String authtoken, String associatedUsername) {
         this.authtoken = authtoken;
+        this.username = associatedUsername;
     }
+
+
+
 
     public String getusername() {
         return username;

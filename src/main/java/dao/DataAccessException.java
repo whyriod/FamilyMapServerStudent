@@ -1,12 +1,25 @@
 package dao;
 
+/***
+ * Custom Exception for my Database operations
+ */
 public class DataAccessException extends Exception {
-        DataAccessException(String message)
+
+    /***
+     * Constructor with message
+     * @param message - Error Message
+     */
+    DataAccessException(String message)
         {
             super(message);
         }
 
-        DataAccessException()
+
+
+    /***
+     * Default Constructor
+     */
+    DataAccessException()
         {
             super();
         }

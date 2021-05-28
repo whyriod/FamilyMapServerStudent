@@ -1,57 +1,112 @@
 package dao;
 
 import model.User;
-
 import java.sql.*;
 
+/***
+ * Performs the following SQL Statements on the User Table:
+ * Create Table
+ * Drop Table
+ * Select (Single)
+ * Insert (Single)
+ * Delete (All)
+ */
 public class UserDAO {
 
     private final Connection c;
 
+
+
+    /***
+     * Constructor.
+     *
+     * @param c - Connection from Database class.
+     */
     public UserDAO(Connection c)
     {
         this.c = c;
     }
 
+
+
     /***
-     * Create a new user.
-     * @param user
+     * Creates the User Table.
+     *
+     * @throws DataAccessException - Unable to create User Table: + e
      */
-    public void insert(User user) throws DataAccessException{
+    public void createTable() throws DataAccessException {
 
-        String sql = "INSERT INTO User (PersonID, Username, Password, Email, " +
-                "FirstName, LastName, Gender) VALUES(?,?,?,?,?,?,?);";
+        //UserTable
+        String sqlU = "Create TABLE IF NOT EXISTS User (\n"+
+                      "PersonID           varChar(20) UNIQUE NOT NULL,\n"+
+                      "Username           varchar(20) PRIMARY KEY NOT NULL,\n"+
+                      "Password           varchar(20) NOT NULL,\n"+
+                      "Email              varchar(40) NOT NULL,\n"+
+                      "FirstName          varchar(40) NOT NULL,\n"+
+                      "LastName           varchar(40) NOT NULL,\n"+
+                      "Gender             varchar(1) NOT NULL);";
 
-        try (PreparedStatement stmt = c.prepareStatement(sql)) {
 
-            stmt.setString(1, user.getPersonID());
-            stmt.setString(2, user.getUsername());
-            stmt.setString(3, user.getPassword());
-            stmt.setString(4, user.getEmail());
-            stmt.setString(5, user.getFirstName());
-            stmt.setString(6, user.getLastName());
-            stmt.setString(7, user.getGender());
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new DataAccessException("Error encountered while inserting into the User database");
+        try (Statement stmt = c.createStatement()){
+            //Create Table
+            stmt.executeUpdate(sqlU);
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to create User Table: " + e);
         }
     }
 
+
+
     /***
-     * Take a username and password, and login the user
-     * @param username
-     * @param password
+     * For Testing Purposes, I need to make sure that the
+     * User table is properly created. So dropping it is
+     * useful.
+     *
+     * @throws DataAccessException - Unable to drop User table: + e
      */
-    public User fetch(String username, String password) throws DataAccessException{
-        User user;
+    public void dropTable() throws DataAccessException{
+        //Initialize and prepare statements.
+        String sqlU = "Drop Table User";
+
+        try (Statement stmt = c.createStatement()){
+            //Execute
+            stmt.executeUpdate(sqlU);
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to drop User table: " + e);
+        }
+    }
+
+
+
+    /***
+     * (Select)
+     * Takes an user String, and a password string. Selects the user associated with
+     * the username and password, and then returns both as an User object. Null is returned
+     * If no object is found.
+     *
+     * @param username - The username to check for.
+     * @param password - The password of the user.
+     * @return token - The authtoken object for the row found.
+     * @throws DataAccessException - Unable to find user: + e
+     */
+    public User fetchUser(String username, String password) throws DataAccessException{
+
+        //Initialize and prepare statements.
+        User user = null;
         ResultSet ur = null;
         String sql = "SELECT * FROM User WHERE Username = ? AND Password = ?;";
+
+        //Execute the Query. If you find a row, set the Authtoken values.
         try (PreparedStatement stmt = c.prepareStatement(sql)) {
             stmt.setString(1, username);
             stmt.setString(2, password);
             ur = stmt.executeQuery();
+
+            //If a row is found
             if (ur.next()) {
                 user = new User(
                         ur.getString("PersonID"), ur.getString("Username"),
@@ -61,31 +116,78 @@ public class UserDAO {
                 );
                 return user;
             }
-        } catch (SQLException e) {
+        }
+        //SQL Error
+        catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while finding User");
-        } finally {
+            throw new DataAccessException("Unable to find user: " + e);
+        }
+        //Close the resultSet
+        finally {
             if(ur != null) {
                 try {
                     ur.close();
-                } catch (SQLException e) {
+                }
+                catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-
         }
         return null;
     }
 
+
+
     /***
-     * Delete all users from the db
+     * (Insert)
+     * Takes a user object. Inserts a new user.
+     *
+     * @param user - new user object to insert into the Database
+     * @throws DataAccessException - Unable to create user: + e
+     */
+    public void insertUser(User user) throws DataAccessException{
+
+        //Prepare Statements
+        String sql = "INSERT INTO User (PersonID, Username, Password, Email, " +
+                "FirstName, LastName, Gender) VALUES(?,?,?,?,?,?,?);";
+
+        try (PreparedStatement stmt = c.prepareStatement(sql)) {
+            //Set User values.
+            stmt.setString(1, user.getPersonID());
+            stmt.setString(2, user.getUsername());
+            stmt.setString(3, user.getPassword());
+            stmt.setString(4, user.getEmail());
+            stmt.setString(5, user.getFirstName());
+            stmt.setString(6, user.getLastName());
+            stmt.setString(7, user.getGender());
+            //Execute Query
+            stmt.executeUpdate();
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to create user: " + e);
+        }
+    }
+
+
+
+    /***
+     * (Delete)
+     * Clears all users from the User table.
+     *
+     * @throws DataAccessException - Unable to clear users: + e
      */
     public void clear() throws DataAccessException {
+        //Prepare Statements
+        String sql = "DELETE FROM User";
+
         try (Statement stmt = c.createStatement()){
-            String sql = "DELETE FROM User";
+            //Execute Query
             stmt.executeUpdate(sql);
-        } catch (SQLException e) {
-            throw new DataAccessException("SQL Error encountered while clearing User Table");
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to clear users: " + e);
         }
     }
 }

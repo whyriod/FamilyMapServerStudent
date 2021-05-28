@@ -1,18 +1,22 @@
 package result;
 
+/***
+ * Creates a RegisterResult object to return an Authtoken, username, and personID
+ * based on db operation.
+ */
 public class RegisterResult {
 
 //    Success Response Body:
 //    {
-//        "authtoken": "cf7a368f",	// Non-empty auth token string
-//        "username": "susan",		// Username passed in with request
-//        "personID": "39f9fe46",		// Non-empty string containing the Person ID of the user’s generated Person object
-//        "success": true		// Boolean identifier
+//       "authtoken": "cf7a368f",	// Non-empty auth token string
+//       "username": "susan",		// Username passed in with request
+//       "personID": "39f9fe46",		// Non-empty string containing the Person ID of the user’s generated Person object
+//       "success": true		// Boolean identifier
 //    }
-//        Error Response Body:
+//    Error Response Body:
 //    {
-//        “message”: “Error: [Description of the error]”
-//        “success”:false		// Boolean identifier
+//       “message”: “Error: [Description of the error]”
+//       “success”:false		// Boolean identifier
 //    }
 
 
@@ -24,6 +28,10 @@ public class RegisterResult {
 
     /***
      * Success Constructor
+     * @param authtoken - Authtoken of new user
+     * @param username - Username of new user.
+     * @param personID - PersonID of new user
+     * @param success - Boolean of Success
      */
     public RegisterResult(String authtoken, String username, String personID, boolean success) {
         this.authtoken = authtoken;
@@ -34,10 +42,12 @@ public class RegisterResult {
 
     /***
      * Error Constructor
+     * @param message - “Error: [Description of the error]”
+     * @param success - Boolean of success
      */
-    public RegisterResult(boolean success, String message) {
-        this.success = success;
+    public RegisterResult(String message,boolean success) {
         this.message = message;
+        this.success = success;
     }
 
     public String getAuthtoken() {

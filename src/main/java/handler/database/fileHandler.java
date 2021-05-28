@@ -7,14 +7,11 @@ import java.nio.file.Files;
 import com.sun.net.httpserver.*;
 
 public class fileHandler implements HttpHandler {
-    ////GET
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        //Assume the worst
-        boolean success = false;
-
+        //Try to handle the request
         try {
             //If its a get request
             if(exchange.getRequestMethod().toLowerCase().equals("get")) {
@@ -22,46 +19,40 @@ public class fileHandler implements HttpHandler {
                 String urlPath = exchange.getRequestURI().toString();
 
                 //If the URL is null or root, set it to index.html
-                if(urlPath == null || urlPath == "/"){
+                if(urlPath.equals("/") || urlPath.equals(null)){
                     urlPath = "/index.html";
                 }
                 //Append the web directory to the front.
                 String filePath = "web" + urlPath;
                 File file = new File(filePath);
 
-                //If the web/{urlPath} is found.
+                //File Found
                 if(file.exists()){
-                    OutputStream respBody = exchange.getResponseBody();
+                    //Send Response: 200
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    OutputStream respBody = exchange.getResponseBody();
                     Files.copy(file.toPath(),respBody);
                     respBody.close();
                 }
-                //Otherwise, couldnt find the file.
                 else{
+                    //Send Response: 404
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
                     exchange.getResponseBody().close();
                 }
             }
-            //It is not a get, so ignore it.
+            //Faulty request
             else{
+                //Send Response: 400
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                 exchange.getResponseBody().close();
             }
         }
         //Internal Error
         catch(IOException e) {
+            //Send Response: 500
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
             exchange.getResponseBody().close();
             e.printStackTrace();
         }
-    }
-
-    /*
-        The writeString method shows how to write a String to an OutputStream.
-    */
-    private void writeString(String str, OutputStream os) throws IOException {
-        OutputStreamWriter sw = new OutputStreamWriter(os);
-        sw.write(str);
-        sw.flush();
     }
 }

@@ -3,56 +3,107 @@ package dao;
 import model.Person;
 import java.sql.*;
 
+/***
+ * Performs the following SQL Statements on the Person Table:
+ * Create Table
+ * Drop Table
+ * Select (Single)
+ * Insert (Single)
+ * Delete (All)
+ */
 public class PersonDAO {
 
     private final Connection c;
 
+
+
+    /***
+     * Constructor.
+     *
+     * @param c - Connection from Database class.
+     */
     public PersonDAO(Connection c)
     {
         this.c = c;
     }
 
+
+
     /***
-     * Create a Person.
+     * Creates the Person Table.
+     *
+     * @throws DataAccessException - Unable to create Person Table: + e
      */
-    public void insert(Person person) throws DataAccessException {
+    public void createTable() throws DataAccessException {
 
-        //We can structure our string to be similar to a sql command, but if we insert question
-        //marks we can change them later with help from the statement
-        String sql = "INSERT INTO Person (PersonID, AssociatedUsername, FirstName, LastName, " +
-                "Gender, FatherID, MotherID, SpouseID) VALUES(?,?,?,?,?,?,?,?);";
+        //Person Table
+        String sqlP =
+                "Create Table IF NOT EXISTS Person(\n" +
+                        "PersonID             varChar(20) PRIMARY KEY NOT NULL,\n" +
+                        "AssociatedUsername   varchar(20),\n" +
+                        "FirstName            varchar(40) NOT NULL,\n" +
+                        "LastName             varChar(40) NOT NULL,\n" +
+                        "Gender               varchar(1) NOT NULL,\n" +
+                        "FatherID             varChar(20),\n" +
+                        "MotherID             varChar(20),\n" +
+                        "SpouseID             varChar(20));";
 
-        try (PreparedStatement stmt = c.prepareStatement(sql)) {
-            //Using the statements built-in set(type) functions we can pick the question mark we want
-            //to fill in and give it a proper value. The first argument corresponds to the first
-            //question mark found in our sql String
-            stmt.setString(1, person.getPersonID());
-            stmt.setString(2, person.getAssociatedUsername());
-            stmt.setString(3, person.getFirstName());
-            stmt.setString(4, person.getLastName());
-            stmt.setString(5, person.getGender());
-            stmt.setString(6, person.getFatherID());
-            stmt.setString(7, person.getMotherID());
-            stmt.setString(8, person.getSpouseID());
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new DataAccessException("Error encountered while inserting into the Person database");
+        try (Statement stmt = c.createStatement()){
+            //Create Table
+            stmt.executeUpdate(sqlP);
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to create Person Table: " + e);
         }
     }
 
+
+
     /***
-     * Find a Person. Return a person object.
-     * @param personID
+     * For Testing Purposes, I need to make sure that the
+     * Person table is properly created. So dropping it is
+     * useful.
+     *
+     * @throws DataAccessException - Unable to drop person table: + e
      */
-    public Person fetch(String personID) throws DataAccessException {
+    public void dropTable() throws DataAccessException{
+        //Initialize and prepare statements.
+        String sqlP = "Drop Table Person";
+
+        try (Statement stmt = c.createStatement()){
+            //Execute
+            stmt.executeUpdate(sqlP);
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to drop Person table: " + e);
+        }
+    }
+
+
+    /***
+     * (Select)
+     * Takes an personID String. Selects the person associated with ID, and then
+     * returns the Person. Null is returned If no person is found.
+     *
+     * @param personID - The personID to check for.
+     * @return person - The person object for the row found.
+     * @throws DataAccessException - Unable to find person: + e
+     */
+    public Person fetchPerson(String personID) throws DataAccessException {
+
+        //Initialize and prepare statements.
         Person person;
         ResultSet pr = null;
         String sql = "SELECT * FROM Person WHERE PersonID = ?;";
-            try (PreparedStatement stmt = c.prepareStatement(sql)) {
+
+        //Execute the Query. If you find a row, set the person values.
+        try (PreparedStatement stmt = c.prepareStatement(sql)) {
             stmt.setString(1, personID);
             pr = stmt.executeQuery();
+
+            //If a row is found
             if (pr.next()) {
                 person = new Person(pr.getString("PersonID"), pr.getString("AssociatedUsername"),
                         pr.getString("FirstName"), pr.getString("LastName"),
@@ -60,10 +111,14 @@ public class PersonDAO {
                         pr.getString("MotherID"), pr.getString("SpouseID"));
                 return person;
             }
-        } catch (SQLException e) {
+        }
+        //SQL Error
+        catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while finding person");
-        } finally {
+            throw new DataAccessException("Unable to find person: " + e);
+        }
+        //Close the resultSet
+        finally {
             if(pr != null) {
                 try {
                     pr.close();
@@ -73,29 +128,62 @@ public class PersonDAO {
             }
 
         }
-            return null;
+        return null;
     }
 
 
-//    /***
-//     * Find all related persons
-//     * @param personID
-//     * @return - person[] of persons related to the personID
-//     */
-//    private person[] fetchRelatedPersons(String personID){
-//        return null;
-//    }
 
     /***
-     * Delete all Persons in the database
-     * @return whether the operation finished.
+     * (Insert)
+     * Takes a person object. Inserts a new person.
+     *
+     * @param person - new person object to insert into the Database
+     * @throws DataAccessException - Unable to create person: + e
+     */
+    public void insertPerson(Person person) throws DataAccessException {
+
+        //Prepare Statements
+        String sql = "INSERT INTO Person (PersonID, AssociatedUsername, FirstName, LastName, " +
+                "Gender, FatherID, MotherID, SpouseID) VALUES(?,?,?,?,?,?,?,?);";
+
+        try (PreparedStatement stmt = c.prepareStatement(sql)) {
+            //Set Person values.
+            stmt.setString(1, person.getPersonID());
+            stmt.setString(2, person.getAssociatedUsername());
+            stmt.setString(3, person.getFirstName());
+            stmt.setString(4, person.getLastName());
+            stmt.setString(5, person.getGender());
+            stmt.setString(6, person.getFatherID());
+            stmt.setString(7, person.getMotherID());
+            stmt.setString(8, person.getSpouseID());
+            //Execute Query
+            stmt.executeUpdate();
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to create person: " + e);
+        }
+    }
+
+
+
+    /***
+     * (Delete)
+     * Clears all persons from the Person table.
+     *
+     * @throws DataAccessException - Unable to clear persons: + e
      */
     public void clear() throws DataAccessException{
+        //Prepare Statements
+        String sql = "DELETE FROM Person";
+
         try (Statement stmt = c.createStatement()){
-            String sql = "DELETE FROM Person";
+            //Execute Query
             stmt.executeUpdate(sql);
-        } catch (SQLException e) {
-            throw new DataAccessException("SQL Error encountered while clearing Person Table");
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to clear persons: " + e);
         }
     }
 }
