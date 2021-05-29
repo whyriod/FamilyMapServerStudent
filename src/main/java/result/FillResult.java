@@ -5,22 +5,13 @@ package result;
  */
 public class FillResult {
 
-//    Success Response Body:
-//    {
-//	     “message”: “Successfully added X persons and Y events to the database.”
-//       “success”:true		// Boolean identifier
-//    }
-//    Error Response Body:
-//    {
-//	     “message”: “Error: [Description of the error]”
-//       “success”:false		// Boolean identifier
-//    }
-
     private String message;
     private boolean success;
 
+
+
     /***
-     * Constructor
+     * Constructor.
      * @param message - Success: “Successfully added X persons and Y events to the database.”
      *                  Error:   “Error: [Description of the error]”
      * @param success - Boolean of success

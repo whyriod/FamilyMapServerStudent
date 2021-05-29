@@ -67,6 +67,7 @@ public class UserDAO {
      * @throws DataAccessException - Unable to drop User table: + e
      */
     public void dropTable() throws DataAccessException{
+
         //Initialize and prepare statements.
         String sqlU = "Drop Table User";
 
@@ -135,8 +136,6 @@ public class UserDAO {
         }
         return null;
     }
-
-
 
 
 

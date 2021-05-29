@@ -2,16 +2,13 @@ package service;
 
 import dao.*;
 import result.ClearResult;
-
-import javax.xml.crypto.Data;
 import java.sql.Connection;
 
+/***
+ * Creates a database connection and DAO objects for each table.
+ * Clears each table and report the result.
+ */
 public class ClearService {
-
-    //Notes
-    //String str = exchange.getRequestURI.toString();
-    //Get sTring array segments -  .split("/");
-    //Check lengths, this lets you know whats in there.
 
     private Database db;
     private AuthTokenDAO aDAO;
@@ -19,22 +16,31 @@ public class ClearService {
     private PersonDAO pDAO;
     private UserDAO uDAO;
 
-    public void setUp() throws DataAccessException, ClassNotFoundException {
-        final String driver = "org.sqlite.JDBC";
-        Class.forName(driver);
+
+
+    /***
+     * Setups Database Connection, and initialize needed DAO's.
+     *
+     * @throws DataAccessException - Database Connection errors
+     */
+    public void setUp() throws DataAccessException {
 
         db = new Database();
         Connection c = db.getConnection();
+
         aDAO = new AuthTokenDAO(c);
         eDAO = new EventDAO(c);
         pDAO = new PersonDAO(c);
         uDAO = new UserDAO(c);
     }
 
+
+
     /***
-     * Description: Deletes ALL data from the database, including user accounts, auth tokens,
-     * person data, and event data
-     * @return clearResult object
+     * Description: Deletes ALL data from the database: user, authTokens,
+     * persons, and events.
+     *
+     * @return clearResult object.
      */
     public ClearResult clearDatabase() {
 
@@ -43,18 +49,19 @@ public class ClearService {
         try{
             //Attempt to Clear
             try{
-                //Setup DB connections and clear tables
+                //Setup and clear tables
                 setUp();
                 aDAO.clear();
                 eDAO.clear();
                 pDAO.clear();
                 uDAO.clear();
+
                 //Commit changes
                 db.closeConnection(true);
                 clear = new ClearResult("Clear succeeded.",true);
             }
             //Clear Failed
-            catch (ClassNotFoundException | DataAccessException e) {
+            catch (DataAccessException e) {
                 //Rollback changes
                 db.closeConnection(false);
                 clear = new ClearResult(("Error: " + e.getMessage()),false);

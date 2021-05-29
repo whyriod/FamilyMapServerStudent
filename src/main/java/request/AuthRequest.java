@@ -2,14 +2,16 @@ package request;
 
 /***
  * Creates a request object for validating a user based on authtoken.
- * This is found in the reqBody.
  */
 public class AuthRequest {
 
     private String authtoken;
 
+
+
     /***
      * Constructor.
+     *
      * @param authtoken - Found in URL
      */
     public AuthRequest(String authtoken) {

@@ -6,25 +6,13 @@ package result;
  */
 public class LoginResult {
 
-//    Success Response Body:
-//    {
-//       "authtoken": "cf7a368f",	// Non-empty auth token string
-//       "username": "susan",		// Username passed in with request
-//       "personID": "39f9fe46"	// Non-empty string containing the Person ID of the user’s generated Person object
-//       “success”:true		// Boolean identifier
-//    }
-//    Error Response Body:
-//    {
-//	     “message”: “Error: [Description of the error]”
-//       “success”:false		// Boolean identifier
-//    }
-
-
     private String authtoken;
     private String username;
     private String personID;
     private boolean success;
     private String message;
+
+
 
     /***
      * Success Constructor
@@ -39,6 +27,8 @@ public class LoginResult {
         this.personID = personID;
         this.success = success;
     }
+
+
 
     /***
      * Error Constructor

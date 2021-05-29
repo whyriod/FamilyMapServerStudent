@@ -10,26 +10,34 @@ import result.LoadResult;
 import service.LoadService;
 import cereal.*;
 
+/***
+ * Handles /load request
+ */
 public class loadHandler implements HttpHandler {
 
+
+
+    /***
+     * Routes to load service. Reports Result;
+     *
+     * @param exchange - The exchange object passed by the server.
+     */
     @Override
     public void handle(HttpExchange exchange) {
 
-        //IOException Block
         try{
-            //Try to handle the request
             try {
+                //POST
+                if(exchange.getRequestMethod().equalsIgnoreCase("post")) {
 
-                //If its a post request
-                if(exchange.getRequestMethod().toLowerCase().equals("post")) {
-
+                    // Get the request body
                     InputStream reqBody = exchange.getRequestBody();
                     Cereal cereal = new Cereal();
                     String reqData = cereal.readString(reqBody);
 
                     //Create the request and attempt the service
                     Gson gson = new Gson();
-                    LoadRequest request = (LoadRequest) gson.fromJson(reqData,LoadRequest.class);
+                    LoadRequest request = gson.fromJson(reqData,LoadRequest.class);
                     LoadService load = new LoadService();
                     LoadResult result = load.loadDatabase(request);
 
@@ -39,21 +47,20 @@ public class loadHandler implements HttpHandler {
                     gson.toJson(result, respBody);
                     respBody.close();
                 }
-                //Faulty Request
+                //Faulty Request: 404
                 else{
-                    //Send Response: 404
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
                     exchange.getResponseBody().close();
                 }
             }
-            //Internal Error
+            //Internal Error: 500
             catch(IOException e) {
-                //Send Response: 500
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
                 exchange.getResponseBody().close();
                 e.printStackTrace();
             }
         }
+        //IOException
         catch(IOException e){
             System.out.println("IOException in clearHandler: " + e);
             e.printStackTrace();

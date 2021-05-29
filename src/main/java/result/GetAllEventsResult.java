@@ -8,20 +8,11 @@ import model.Event;
  */
 public class GetAllEventsResult {
 
-//    Success Response Body:
-//    {
-//       "data": [  /* Array of Event objects */  ]
-//       “success”:true		// Boolean identifier
-//    }
-//    Error Response Body:
-//    {
-//	     “message”: “Error: [Description of the error]”
-//       “success”:false		// Boolean identifier
-//    }
-
     private Event[] data;
     private String message;
     private boolean success;
+
+
 
     /***
      * Success Constructor
@@ -32,6 +23,8 @@ public class GetAllEventsResult {
         this.data = data;
         this.success = success;
     }
+
+
 
     /***
      * Error Constructor

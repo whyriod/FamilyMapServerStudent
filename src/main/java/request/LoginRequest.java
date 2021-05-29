@@ -9,10 +9,13 @@ public class LoginRequest {
     private String username;
     private String password;
 
+
+
     /***
-     * Constructor
-     * @param username - Username to login
-     * @param password - Password of user
+     * Constructor.
+     *
+     * @param username - Username to login.
+     * @param password - Password of user.
      */
     public LoginRequest(String username, String password) {
         this.username = username;

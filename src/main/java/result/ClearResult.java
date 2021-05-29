@@ -5,24 +5,16 @@ package result;
  */
 public class ClearResult {
 
-//    Success Response Body:
-//    {
-//	     “message”: “Clear succeeded.”
-//       “success”:true		// Boolean identifier
-//    }
-//    Error Response Body:
-//    {
-//	     “message”: “Error: [Description of the error]”
-//       “success”:false		// Boolean identifier
-//    }
-
     private String message;
     private boolean success;
 
+
+
     /***
-     * Constructor - Success and Failure
+     * Constructor - Success and Failure.
+     *
      * @param message - Success: "Clear succeeded."
-     *                  Error:   "Error: ..." if failure
+     *                  Error:   "Error: ..."
      * @param success - Boolean of success
      */
     public ClearResult(String message, boolean success) {

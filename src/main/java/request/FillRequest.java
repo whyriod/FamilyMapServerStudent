@@ -8,8 +8,11 @@ public class FillRequest {
     private String username;
     private int generations;
 
+
+
     /***
      * Constructor.
+     *
      * @param username - Found in URL
      * @param generations - Found in URL after username, or blank. Default to 4
      */

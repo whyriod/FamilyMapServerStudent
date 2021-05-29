@@ -13,14 +13,17 @@ public class RegisterRequest {
     private String lastName;
     private String gender;
 
+
+
     /***
-     * Constructor
-     * @param username - New username to register
-     * @param password - Password for new account
-     * @param email - Email for new account
-     * @param firstName - Firstname of user
-     * @param lastName - Lastname of user
-     * @param gender - Sex of user
+     * Constructor.
+     *
+     * @param username - New username to register.
+     * @param password - Password for new account.
+     * @param email - Email for new account.
+     * @param firstName - Firstname of user.
+     * @param lastName - Lastname of user.
+     * @param gender - Sex of user.
      */
     public RegisterRequest(String username, String password, String email, String firstName, String lastName, String gender) {
         this.username = username;

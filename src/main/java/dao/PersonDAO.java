@@ -68,6 +68,7 @@ public class PersonDAO {
      * @throws DataAccessException - Unable to drop person table: + e
      */
     public void dropTable() throws DataAccessException{
+
         //Initialize and prepare statements.
         String sqlP = "Drop Table Person";
 

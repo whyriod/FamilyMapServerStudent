@@ -1,26 +1,29 @@
 package request;
 
 /***
- * Creates a request to get all events related to a username based on the
+ * Creates a request to get all events related to a personID based on the
  * provided AuthToken. This is found in the reqBody.
  */
 public class GetAllEventsRequest {
 
-    private String username;
+    private String personID;
+
+
 
     /***
-     * Constructor
-     * @param username - The username passed in
+     * Constructor.
+     * 
+     * @param personID - The personID passed in.
      */
-    public GetAllEventsRequest(String username) {
-        this.username = username;
+    public GetAllEventsRequest(String personID) {
+        this.personID = personID;
     }
 
-    public String getUsername() {
-        return username;
+    public String getpersonID() {
+        return personID;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setpersonID(String personID) {
+        this.personID = personID;
     }
 }

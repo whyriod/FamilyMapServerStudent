@@ -23,8 +23,8 @@ public class Database {
      * @throws DataAccessException - Unable to open database connection: + e
      */
     public Connection openConnection() throws DataAccessException {
-        try{
 
+        try{
             //The Structure for this Connection is driver:language:path
             //The path assumes you start in the root of your project unless given a non-relative path
             final String CONNECTION_URL = "jdbc:sqlite:FamilyMap.sqlite";
@@ -51,6 +51,7 @@ public class Database {
      * @throws DataAccessException - From getConnection
      */
     public Connection getConnection() throws DataAccessException {
+
         //No connection
         if(c == null) {
             return openConnection();
@@ -70,6 +71,7 @@ public class Database {
      * @throws DataAccessException - Unable to close database connection: + e
      */
     public void closeConnection(boolean commit) throws DataAccessException {
+
         try {
             //Keep
             if (commit) {

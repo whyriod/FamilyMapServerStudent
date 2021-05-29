@@ -70,6 +70,7 @@ public class EventDAO {
      * @throws DataAccessException - Unable to drop Event table: + e
      */
     public void dropTable() throws DataAccessException{
+
         //Initialize and prepare statements.
         String sqlE = "Drop Table Event";
 
@@ -247,6 +248,7 @@ public class EventDAO {
      * @throws DataAccessException - Unable to clear events: + e
      */
     public void clear() throws DataAccessException {
+
         //Prepare Statements
         String sql = "DELETE FROM Event";
 

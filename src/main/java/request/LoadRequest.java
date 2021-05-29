@@ -15,11 +15,14 @@ public class LoadRequest {
     private Person[] persons;
     private Event[] events ;
 
+
+
     /***
-     * Constructor
-     * @param users - Array of users from ReqBody
-     * @param persons - Array of persons from ReqBody
-     * @param events - Array of events from ReqBody
+     * Constructor.
+     *
+     * @param users - Array of users from ReqBody.
+     * @param persons - Array of persons from ReqBody.
+     * @param events - Array of events from ReqBody.
      */
     public LoadRequest(User[] users, Person[] persons, Event[] events) {
         this.users = users;

@@ -13,13 +13,10 @@ public class AuthService {
 
     private Database db;
     private AuthTokenDAO aDAO;
-    private EventDAO eDAO;
     private PersonDAO pDAO;
     private UserDAO uDAO;
 
     public void setUp() throws DataAccessException, ClassNotFoundException {
-        final String driver = "org.sqlite.JDBC";
-        Class.forName(driver);
 
         db = new Database();
         Connection c = db.getConnection();
@@ -29,14 +26,14 @@ public class AuthService {
     }
 
     /***
-     * Creates a new user account, generates 4 generations of ancestor data for the new user,
-     * logs the user in, and returns an auth token.
-     * @param r registerRequest Object
-     * @return registerResult Object
+     * Authenticate User with their Authtoken.
+     *
+     * @param r - The authRequest containing the Authtoken.
+     * @return - AuthResult Object.
      */
-    public AuthResult getUser(AuthRequest r){
+    public AuthResult authenticateUser(AuthRequest r){
 
-        AuthResult result = null;
+        AuthResult result;
 
         try{
             try{
@@ -48,12 +45,17 @@ public class AuthService {
                     User user = uDAO.fetchUser(token.getusername());
                     Person person = pDAO.fetchPerson(user.getPersonID());
 
-                    result = new AuthResult(user.getUsername(),person.getPersonID());
+                    result = new AuthResult(user.getUsername(),person.getPersonID(),
+                            r.getAuthtoken(),true);
                 }
-
+                else{
+                    result = new AuthResult("Unable to Authenticate",false);
+                }
                 //Commit changes
                 db.closeConnection(false);
+                return result;
             }
+
             //Clear Failed
             catch (ClassNotFoundException | DataAccessException e) {
                 //Rollback changes
@@ -65,6 +67,7 @@ public class AuthService {
         catch(DataAccessException e){
             e.printStackTrace();
         }
-        return result;
+
+        return null;
     }
 }

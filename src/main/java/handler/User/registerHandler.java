@@ -15,17 +15,24 @@ import java.io.Writer;
 import java.net.HttpURLConnection;
 
 /***
- * Creates a new user for person.
+ * Handles /user/register requests
  */
 public class registerHandler implements HttpHandler {
 
+
+
+    /***
+     * Routes to register service. Reports result.
+     *
+     * @param exchange - Exchange object from Server
+     */
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public void handle(HttpExchange exchange) {
 
         try {
             try {
-                //If its a post request
-                if (exchange.getRequestMethod().toLowerCase().equals("post")) {
+                //POST
+                if (exchange.getRequestMethod().equalsIgnoreCase("post")) {
 
                     // Get the request body
                     InputStream reqBody = exchange.getRequestBody();
@@ -38,11 +45,11 @@ public class registerHandler implements HttpHandler {
                     RegisterService register = new RegisterService();
                     RegisterResult result = register.registerUser(request);
 
-                    //Register: Success
+                    //Register: 200
                     if(result.isSuccess()){
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     }
-                    //Register: Failure
+                    //Register: 400
                     else{
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                     }
@@ -52,13 +59,13 @@ public class registerHandler implements HttpHandler {
                     respBody.close();
                 }
 
-                //Faulty Request
+                //Faulty Request: 404
                 else {
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
                     exchange.getResponseBody().close();
                 }
             }
-            //Internal Error
+            //Internal Error: 500
             catch (IOException e) {
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
                 exchange.getResponseBody().close();

@@ -21,8 +21,6 @@ public class GetAllPersonsService {
     private UserDAO uDAO;
 
     public void setUp() throws DataAccessException, ClassNotFoundException {
-        final String driver = "org.sqlite.JDBC";
-        Class.forName(driver);
 
         db = new Database();
         Connection c = db.getConnection();
@@ -39,54 +37,54 @@ public class GetAllPersonsService {
      * @return getAllEventsResult object
      */
     private GetAllPersonsService getAllEvents (GetPersonRequest r){
-
-        GetAllPersonsResult result;
-
-        try{
-            try{
-                setUp();
-                Person[] persons;
-
-                //New User
-                if(exist == null){
-                    User newUser = new User(UUID.randomUUID().toString(),r.getUsername(),
-                            r.getPassword(),r.getEmail(),r.getFirstName(),
-                            r.getLastName(),r.getGender());
-                    uDAO.insertUser(newUser);
-
-                    Person newPerson = new Person(newUser.getPersonID(),newUser.getUsername(),
-                            newUser.getFirstName(), newUser.getLastName(), newUser.getGender(),
-                            null,null,null);
-
-                    pDAO.insertPerson(newPerson);
-                    Authtoken newToken = new Authtoken(UUID.randomUUID().toString(),newUser.getUsername());
-                    aDAO.insertToken(newToken);
-
-                    register = new RegisterResult(newToken.getauthtoken(),newUser.getUsername(),
-                            newPerson.getPersonID(),true);
-                }
-                //Pre Existing User
-                else{
-                    register = new RegisterResult("Error: User already registered", false);
-                }
-
-                //Commit changes
-                db.closeConnection(true);
-            }
-            //Clear Failed
-            catch (ClassNotFoundException | DataAccessException e) {
-                //Rollback changes
-                db.closeConnection(false);
-                register = new RegisterResult(("Error: " + e.getMessage()),false);
-                e.printStackTrace();
-            }
-        }
-        //Connection close failed
-        catch(DataAccessException e){
-            register = new RegisterResult(("Error: " + e.getMessage()), false);
-            e.printStackTrace();
-        }
-        return register;
-    }
+        return null;
+//        GetAllPersonsResult result;
+//
+//        try{
+//            try{
+//                setUp();
+//                Person[] persons;
+//
+//                //New User
+//                if(exist == null){
+//                    User newUser = new User(UUID.randomUUID().toString(),r.getUsername(),
+//                            r.getPassword(),r.getEmail(),r.getFirstName(),
+//                            r.getLastName(),r.getGender());
+//                    uDAO.insertUser(newUser);
+//
+//                    Person newPerson = new Person(newUser.getPersonID(),newUser.getUsername(),
+//                            newUser.getFirstName(), newUser.getLastName(), newUser.getGender(),
+//                            null,null,null);
+//
+//                    pDAO.insertPerson(newPerson);
+//                    Authtoken newToken = new Authtoken(UUID.randomUUID().toString(),newUser.getUsername());
+//                    aDAO.insertToken(newToken);
+//
+//                    register = new RegisterResult(newToken.getauthtoken(),newUser.getUsername(),
+//                            newPerson.getPersonID(),true);
+//                }
+//                //Pre Existing User
+//                else{
+//                    register = new RegisterResult("Error: User already registered", false);
+//                }
+//
+//                //Commit changes
+//                db.closeConnection(true);
+//            }
+//            //Clear Failed
+//            catch (ClassNotFoundException | DataAccessException e) {
+//                //Rollback changes
+//                db.closeConnection(false);
+//                register = new RegisterResult(("Error: " + e.getMessage()),false);
+//                e.printStackTrace();
+//            }
+//        }
+//        //Connection close failed
+//        catch(DataAccessException e){
+//            register = new RegisterResult(("Error: " + e.getMessage()), false);
+//            e.printStackTrace();
+//        }
+//        return register;
+//    }
     }
 }

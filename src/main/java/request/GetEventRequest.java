@@ -8,9 +8,12 @@ public class GetEventRequest {
 
     private String eventID;
 
+
+
     /***
-     * Constructor
-     * @param eventID - ID of the requested event
+     * Constructor.
+     *
+     * @param eventID - ID of the requested event.
      */
     public GetEventRequest(String eventID) {
         this.eventID = eventID;

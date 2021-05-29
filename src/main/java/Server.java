@@ -32,7 +32,9 @@ public class Server {
      *
      * @throws DataAccessException - If data cannot be cleared, then die.
      */
-    public void setup() throws DataAccessException {
+    public void setup() throws DataAccessException, ClassNotFoundException {
+        final String driver = "org.sqlite.JDBC";
+        Class.forName(driver);
 
         System.out.println("Setting up Server Tables");
 
@@ -45,7 +47,7 @@ public class Server {
         PersonDAO pDAO = new PersonDAO(c);
         UserDAO uDAO = new UserDAO(c);
 
-        //Create Tables and clear if they already existed.
+        //Create Tables and clear.
         aDAO.createTable();
         eDAO.createTable();
         pDAO.createTable();
@@ -85,35 +87,27 @@ public class Server {
 
         System.out.println("Creating contexts");
 
-        ////////// Database Handlers \\\\\\\\\\
-        //Serve Index.html
+        //Database Handlers
         server.createContext("/", new fileHandler());
-        //Delete all rows from databse
         server.createContext("/clear", new clearHandler());
-        //Load provided User, Person, and Event data
         server.createContext("/load", new loadHandler());
-        //Populate X generations for provided user. Default 4
         server.createContext("/fill", new fillHandler());
 
-
-        ////////// User Handlers \\\\\\\\\\
+        //User Handlers
         server.createContext("/user/login", new loginHandler());
         server.createContext("/user/register", new registerHandler());
         server.createContext("/event", new eventHandler());
         server.createContext("/person", new personHandler());
 
-
         System.out.println("Starting server");
-
         server.start();
-
         System.out.println("Server started");
     }
 
 
 
     /***
-     * Main argument. Setsup server tables and then runs server.
+     * Main argument. Setup server tables and then runs server.
      * @param args - Command Line args. The first is the port.
      */
     public static void main(String[] args) {
@@ -123,7 +117,7 @@ public class Server {
             server.setup();
             server.run(portNumber);
         }
-        catch (DataAccessException e) {
+        catch (DataAccessException | ClassNotFoundException e) {
             System.out.println("Unable to setup Server tables. Exiting.");
             e.printStackTrace();
         }

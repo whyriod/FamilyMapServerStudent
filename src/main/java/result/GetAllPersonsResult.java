@@ -8,20 +8,11 @@ import passoffmodels.Person;
  */
 public class GetAllPersonsResult {
 
-//    Success Response Body:
-//    {
-//       "data": [  /* Array of Person objects */  ]
-//       “success”:true		// Boolean identifier
-//    }
-//    Error Response Body:
-//    {
-//	     “message”: “Error: [Description of the error]”
-//       “success”:false		// Boolean identifier
-//    }
-
     private Person[] data;
     private String message;
     private boolean success;
+
+
 
     /***
      * Success Constructor
@@ -32,6 +23,8 @@ public class GetAllPersonsResult {
         this.data = data;
         this.success = success;
     }
+
+
 
     /***
      * Error Constructor

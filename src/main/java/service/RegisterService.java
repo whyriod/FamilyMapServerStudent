@@ -6,18 +6,17 @@ import model.Authtoken;
 import model.Person;
 import model.User;
 import request.RegisterRequest;
-import result.ClearResult;
 import result.RegisterResult;
 
 import java.sql.Connection;
 import java.util.UUID;
 
+/***
+ * Attempts to add User to User and Person table, and to
+ * create a new authtoken. If it succeeds, they register.
+ * If not, they fail.
+ */
 public class RegisterService {
-
-    //Notes
-    //String str = exchange.getRequestURI.toString();
-    //Get sTring array segments -  .split("/");
-    //Check lengths, this lets you know whats in there.
 
     private Database db;
     private AuthTokenDAO aDAO;
@@ -25,9 +24,14 @@ public class RegisterService {
     private PersonDAO pDAO;
     private UserDAO uDAO;
 
+
+
+    /***
+     * Setups Database Connection, and initialize needed DAO's.
+     *
+     * @throws DataAccessException - Database Connection errors
+     */
     public void setUp() throws DataAccessException, ClassNotFoundException {
-        final String driver = "org.sqlite.JDBC";
-        Class.forName(driver);
 
         db = new Database();
         Connection c = db.getConnection();
@@ -36,9 +40,10 @@ public class RegisterService {
         uDAO = new UserDAO(c);
     }
 
+
+
     /***
-     * Creates a new user account, generates 4 generations of ancestor data for the new user,
-     * logs the user in, and returns an auth token.
+     * Creates a new User, Person, and Authtoken row.
      * @param r registerRequest Object
      * @return registerResult Object
      */
@@ -47,30 +52,36 @@ public class RegisterService {
         RegisterResult register;
 
         try{
-            //Attempt to register
             try{
+                //Setup DB connections and find user
                 setUp();
                 User exist = uDAO.fetchUser(r.getUsername(),r.getPassword());
 
                 //New User
                 if(exist == null){
-                    User newUser = new User(UUID.randomUUID().toString(),r.getUsername(),
+                    //Create User, Person, and Authtoken objects
+                    User newUser =
+                            new User(UUID.randomUUID().toString(),r.getUsername(),
                                     r.getPassword(),r.getEmail(),r.getFirstName(),
                                     r.getLastName(),r.getGender());
-                    uDAO.insertUser(newUser);
 
-                    Person newPerson = new Person(newUser.getPersonID(),newUser.getUsername(),
+                    Person newPerson =
+                            new Person(newUser.getPersonID(),newUser.getUsername(),
                                     newUser.getFirstName(), newUser.getLastName(), newUser.getGender(),
                                     null,null,null);
 
+                    Authtoken newToken =
+                            new Authtoken(UUID.randomUUID().toString(),newUser.getUsername());
+
+                    //Insert and commit changes.
+                    uDAO.insertUser(newUser);
                     pDAO.insertPerson(newPerson);
-                    Authtoken newToken = new Authtoken(UUID.randomUUID().toString(),newUser.getUsername());
                     aDAO.insertToken(newToken);
 
                     register = new RegisterResult(newToken.getauthtoken(),newUser.getUsername(),
                             newPerson.getPersonID(),true);
                 }
-                //Pre Existing User
+                //!New User
                 else{
                     register = new RegisterResult("Error: User already registered", false);
                 }

@@ -62,6 +62,7 @@ public class AuthTokenDAO {
      * @throws DataAccessException - Unable to drop Authtoken table: + e
      */
     public void dropTable() throws DataAccessException{
+
         //Initialize and prepare statements.
         String sqlA = "Drop Table Authtoken";
 

@@ -4,6 +4,7 @@ package model;
  * The Event class is a representation of the Event sqlite table
  */
 public class Event {
+
     private String eventID;
     private String eventType;
     private String personID;
@@ -13,6 +14,7 @@ public class Event {
     private String city;
     private float latitude;
     private float longitude;
+
 
 
     /***

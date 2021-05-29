@@ -9,28 +9,29 @@ import result.ClearResult;
 import service.ClearService;
 
 /***
- * Handles clearing all Database table data
+ * Handles /clear requests
  */
 public class clearHandler implements HttpHandler {
 
+
+
     /***
-     * Attempts to clear all DB data.
+     * Routes to clear service. Reports result
      *
-     * @param exchange - Exchange object from Server
+     * @param exchange - The exchange object passed by the server.
      */
     @Override
     public void handle(HttpExchange exchange) {
 
-
         try {
             try {
-                //If its a post request
-                if (exchange.getRequestMethod().toLowerCase().equals("post")) {
+                //POST
+                if (exchange.getRequestMethod().equalsIgnoreCase("post")) {
                     //Access the Clear service.
                     ClearService clear = new ClearService();
                     ClearResult result = clear.clearDatabase();
 
-                    //Clear: Success
+                    //Success: 200
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                     Writer respBody = new OutputStreamWriter(exchange.getResponseBody());
                     Gson gson = new Gson();
@@ -38,13 +39,13 @@ public class clearHandler implements HttpHandler {
                     respBody.close();
                 }
 
-                //Faulty request
+                //Faulty request: 404
                 else {
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
                     exchange.getResponseBody().close();
                 }
             }
-            //Internal Error
+            //Internal Error: 500
             catch (IOException e) {
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
                 exchange.getResponseBody().close();
@@ -53,7 +54,7 @@ public class clearHandler implements HttpHandler {
         }
         //IOException
         catch(IOException e){
-            System.out.println("IOException in clearHandler: " + e);
+            System.out.println("Error: IOException in clearHandler: " + e);
             e.printStackTrace();
         }
     }

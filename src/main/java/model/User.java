@@ -5,6 +5,7 @@ package model;
  * The User class is a representation of the User sqlite table.
  */
 public class User {
+
     private String personID;
     private String username;
     private String password;
@@ -12,6 +13,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String gender;
+
 
 
     /***

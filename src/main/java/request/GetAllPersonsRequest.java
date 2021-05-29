@@ -1,10 +1,10 @@
 package request;
 
 /***
- * Creates a request to get a specific person based on the personID.
- * PersonID found in the URL.
+ * Creates a request to get a all persons based on the personID.
+ * PersonID found through authentication
  */
-public class GetPersonRequest {
+public class GetAllPersonsRequest {
 
     private String personID;
 
@@ -15,7 +15,7 @@ public class GetPersonRequest {
      *
      * @param personID - PersonID of the requested person.
      */
-    public GetPersonRequest(String personID) {
+    public GetAllPersonsRequest(String personID) {
         this.personID = personID;
     }
 

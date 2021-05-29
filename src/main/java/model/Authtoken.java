@@ -20,9 +20,6 @@ public class Authtoken {
         this.username = associatedUsername;
     }
 
-
-
-
     public String getusername() {
         return username;
     }

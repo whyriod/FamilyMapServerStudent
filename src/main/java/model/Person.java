@@ -4,6 +4,7 @@ package model;
  * The Person class is a representation of the Person sqlite table
  */
 public class Person {
+
     private String personID;
     private String associatedUsername;
     private String firstName;
@@ -12,6 +13,8 @@ public class Person {
     private String fatherID;
     private String motherID;
     private String spouseID;
+
+
 
     /***
      * Constructor
@@ -34,14 +37,6 @@ public class Person {
         this.fatherID = fatherID;
         this.motherID = motherID;
         this.spouseID = spouseID;
-    }
-
-    public Person(User user){
-        personID = user.getPersonID();
-        associatedUsername = user.getUsername();
-        firstName = user.getFirstName();
-        lastName = user.getLastName();
-        gender = user.getGender();
     }
 
     public String getPersonID() {
