@@ -138,6 +138,62 @@ public class UserDAO {
 
 
 
+
+
+    /***
+     * (Select)
+     * Takes an user String. Selects the user associated with
+     * the username and then returns both as an User object. Null is returned
+     * If no object is found.
+     *
+     * @param username - The username to check for.
+     * @return token - The authtoken object for the row found.
+     * @throws DataAccessException - Unable to find user: + e
+     */
+    public User fetchUser(String username) throws DataAccessException{
+
+        //Initialize and prepare statements.
+        User user = null;
+        ResultSet ur = null;
+        String sql = "SELECT * FROM User WHERE Username = ? ;";
+
+        //Execute the Query. If you find a row, set the Authtoken values.
+        try (PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            ur = stmt.executeQuery();
+
+            //If a row is found
+            if (ur.next()) {
+                user = new User(
+                        ur.getString("PersonID"), ur.getString("Username"),
+                        ur.getString("Password"), ur.getString("Email"),
+                        ur.getString("FirstName"), ur.getString("LastName"),
+                        ur.getString("Gender")
+                );
+                return user;
+            }
+        }
+        //SQL Error
+        catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Unable to find user: " + e);
+        }
+        //Close the resultSet
+        finally {
+            if(ur != null) {
+                try {
+                    ur.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+
+
     /***
      * (Insert)
      * Takes a user object. Inserts a new user.

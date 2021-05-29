@@ -42,7 +42,7 @@ public class LoginService {
                 setUp();
                 User user = uDAO.fetchUser(r.getUsername(),r.getPassword());
 
-                if(user.getUsername() != null){
+                if(user != null){
                     //Create new Token
                     Authtoken newToken = new Authtoken(UUID.randomUUID().toString(),r.getUsername());
                     aDAO.insertToken(newToken);
@@ -52,12 +52,12 @@ public class LoginService {
                             user.getPersonID(),true);
                 }
                 else{
-                    login = new LoginResult("Error: Invalid Username or Password",false);
+                    login = new LoginResult("Error: Invalid username or password",false);
                 }
-
                 //Commit changes
                 db.closeConnection(true);
             }
+
             //Login Failed
             catch (ClassNotFoundException | DataAccessException e) {
                 //Rollback changes
@@ -71,6 +71,6 @@ public class LoginService {
             login = new LoginResult(("Error: " + e.getMessage()),false);
             e.printStackTrace();
         }
-        return null;
+        return login;
     }
 }

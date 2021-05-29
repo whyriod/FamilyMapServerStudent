@@ -28,7 +28,7 @@ public class GetPersonResult {
     private String associatedUsername;
     private String firstName;
     private String lastName;
-    private char gender;
+    private String gender;
     private String fatherID;
     private String motherID;
     private String spouseID;
@@ -47,7 +47,7 @@ public class GetPersonResult {
      * @param spouseID - ID of spouse
      * @param success - Boolean of success
      */
-    public GetPersonResult(String personID, String associatedUsername, String firstName, String lastName, char gender,
+    public GetPersonResult(String personID, String associatedUsername, String firstName, String lastName, String gender,
                            String fatherID, String motherID, String spouseID, boolean success) {
         this.personID = personID;
         this.associatedUsername = associatedUsername;
@@ -102,11 +102,11 @@ public class GetPersonResult {
         this.lastName = lastName;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

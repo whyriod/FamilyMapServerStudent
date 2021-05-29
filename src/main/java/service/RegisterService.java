@@ -50,18 +50,19 @@ public class RegisterService {
             //Attempt to register
             try{
                 setUp();
-
                 User exist = uDAO.fetchUser(r.getUsername(),r.getPassword());
 
                 //New User
                 if(exist == null){
                     User newUser = new User(UUID.randomUUID().toString(),r.getUsername(),
                                     r.getPassword(),r.getEmail(),r.getFirstName(),
-                                    r.getLastName(),Character.toString(r.getGender()));
+                                    r.getLastName(),r.getGender());
                     uDAO.insertUser(newUser);
+
                     Person newPerson = new Person(newUser.getPersonID(),newUser.getUsername(),
                                     newUser.getFirstName(), newUser.getLastName(), newUser.getGender(),
                                     null,null,null);
+
                     pDAO.insertPerson(newPerson);
                     Authtoken newToken = new Authtoken(UUID.randomUUID().toString(),newUser.getUsername());
                     aDAO.insertToken(newToken);

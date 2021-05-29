@@ -11,7 +11,7 @@ public class RegisterRequest {
     private String email;
     private String firstName;
     private String lastName;
-    private char gender;
+    private String gender;
 
     /***
      * Constructor
@@ -22,7 +22,7 @@ public class RegisterRequest {
      * @param lastName - Lastname of user
      * @param gender - Sex of user
      */
-    public RegisterRequest(String username, String password, String email, String firstName, String lastName, char gender) {
+    public RegisterRequest(String username, String password, String email, String firstName, String lastName, String gender) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -71,11 +71,11 @@ public class RegisterRequest {
         this.lastName = lastName;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 }

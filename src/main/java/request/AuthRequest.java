@@ -4,7 +4,7 @@ package request;
  * Creates a request object for validating a user based on authtoken.
  * This is found in the reqBody.
  */
-public class GetUser {
+public class AuthRequest {
 
     private String authtoken;
 
@@ -12,7 +12,7 @@ public class GetUser {
      * Constructor.
      * @param authtoken - Found in URL
      */
-    public GetUser(String authtoken) {
+    public AuthRequest(String authtoken) {
         this.authtoken = authtoken;
     }
 

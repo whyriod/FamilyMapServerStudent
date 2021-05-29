@@ -37,7 +37,7 @@ public class LoadService {
      * @param l loadRequest Object
      * @return loadResult Objest
      */
-    public LoadResult loadDatabase(LoadRequest l){
+    public LoadResult loadDatabase(LoadRequest r){
 
         LoadResult load;
 
@@ -45,9 +45,9 @@ public class LoadService {
             //Try to load events, persons, and users into the database.
             try {
                 setUp();
-                Event[] events = l.getEvents();
-                Person[] persons = l.getPersons();
-                User[] users = l.getUsers();
+                Event[] events = r.getEvents();
+                Person[] persons = r.getPersons();
+                User[] users = r.getUsers();
                 int eventCount = 0;
                 int personCount = 0;
                 int userCount = 0;
@@ -69,6 +69,7 @@ public class LoadService {
                     uDAO.insertUser(users[i]);
                     userCount++;
                 }
+
                 //Commit changes
                 db.closeConnection(true);
 

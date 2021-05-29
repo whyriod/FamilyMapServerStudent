@@ -10,7 +10,7 @@ public class GetPersonService {
      * @param g getPersonResult
      * @return getPersonRequest
      */
-    private GetPersonResult getPerson(GetPersonRequest g) {
+    private GetPersonResult getPerson(GetPersonRequest r) {
         return null;
     }
 }

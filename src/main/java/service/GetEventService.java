@@ -10,7 +10,7 @@ public class GetEventService {
      * @param g getEventRequest
      * @return getEventResult object
      */
-    private GetEventResult getEvent(GetEventRequest g){
+    private GetEventResult getEvent(GetEventRequest r){
         return null;
     }
 }
