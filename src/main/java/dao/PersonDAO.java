@@ -9,6 +9,7 @@ import java.sql.*;
  * Drop Table
  * Select (Single)
  * Insert (Single)
+ * Delete (Associated User)
  * Delete (All)
  */
 public class PersonDAO {
@@ -163,6 +164,33 @@ public class PersonDAO {
         //SQL Error
         catch (SQLException e) {
             throw new DataAccessException("Unable to create person: " + e);
+        }
+    }
+
+
+
+    /***
+     * (Delete)
+     * Takes a username. Deletes persons who have that associated username.
+     *
+     * @param asscoiatedUsername - username of person to delete.
+     * @throws DataAccessException - Unable to delete person: + e
+     */
+    public void deletePerson(String asscoiatedUsername) throws DataAccessException {
+
+        //Prepare Statements
+        String sql = "DELETE FROM Person WHERE AssociatedUsername = ?;";
+
+        try (PreparedStatement stmt = c.prepareStatement(sql)) {
+            //Set Person values.
+            stmt.setString(1, asscoiatedUsername);
+
+            //Execute Query
+            stmt.executeUpdate();
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to delete person: " + e);
         }
     }
 

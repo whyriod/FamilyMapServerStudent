@@ -18,7 +18,7 @@ public class loadHandler implements HttpHandler {
 
 
     /***
-     * Routes to load service. Reports Result;
+     * Routes to LoadService. Reports Result;
      *
      * @param exchange - The exchange object passed by the server.
      */

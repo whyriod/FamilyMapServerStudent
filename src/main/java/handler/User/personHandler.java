@@ -1,105 +1,140 @@
 package handler.User;
 
-import cereal.Cereal;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import model.Person;
 import request.AuthRequest;
+import request.PersonsEvent;
+import request.PersonEvent;
 import result.AuthResult;
+import result.EventsResult;
+import result.PersonsResult;
+import result.PersonResult;
 import service.AuthService;
+import service.PersonService;
+import service.PersonsService;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 
+/***
+ * Handles /person and /person/[personID] requests.
+ */
 public class personHandler implements HttpHandler {
-    ////GET
+
+
+    /***
+     * Routes to GetPersonService or GetAllPersonsService. Reports result.
+     *
+     * @param exchange - Exchange object from Server
+     */
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
-        exchange.getResponseBody().close();
-//        try {
-//            try {
-//                //If its a post request
-//                if (exchange.getRequestMethod().equalsIgnoreCase("get")) {
-//                    //AuthToken
-//                    Headers header = exchange.getRequestHeaders();
-//
-//                    //If It has an Authtoken
-//                    if (header.containsKey("Authorization")) {
-//                        String token = header.getFirst("Authorization");
-//
-//                        AuthRequest request = new AuthRequest(token);
-//                        AuthService service = new AuthService();
-//                        AuthResult result = service.authenticateUser(request);
-//
-//                        //Failed to authenticate
-//                        if(result == null){
-//                            exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
-//                            exchange.getResponseBody().close();
-//                        }
-//
-//                        //Authentication successful
-//                        else{
-//                            //Get the URL parameters
-//                            String urlPath = exchange.getRequestURI().toString();
-//                            String[] segments = urlPath.split("/");
-//                            int urlParams = segments.length;
-//
-//                            // Get the request body
-//                            InputStream reqBody = exchange.getRequestBody();
-//                            Cereal cereal = new Cereal();
-//                            String reqData = cereal.readString(reqBody);
-//                            Gson gson = new Gson();
-//
-//                            //Get All Persons related to Current User.
-//                            if (urlParams == 2) {
-//                                //Get all who are related to said user.
-//                                exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-//                                Writer respBody = new OutputStreamWriter(exchange.getResponseBody());
-//                                gson.toJson(result, respBody);
-//                                respBody.close();
-//                            }
-//                            //Get Specific User.
-//                            else if (urlParams == 3) {
-////                                String personID = segments[2];
-////                                GetPersonRequest request = gson.fromJson(reqData, GetPersonRequest.class);
-////                                GetPersonService person = new GetPersonService();
-////
-////                                //Send Response: 200
-//                                exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-//                                Writer respBody = new OutputStreamWriter(exchange.getResponseBody());
-//                                gson.toJson(result, respBody);
-//                                respBody.close();
-//                            }
-//                        }
-//                    }
-//                    //No AuthToken
-//                    else {
-//                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
-//                        exchange.getResponseBody().close();
-//                    }
-//                }
-//                //Faulty Request
-//                else {
-//                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
-//                    exchange.getResponseBody().close();
-//                }
-//            }
-//            //Internal Error
-//            catch (IOException e) {
-//                exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
-//                exchange.getResponseBody().close();
-//                e.printStackTrace();
-//            }
-//        }
-//        //IOException
-//        catch(IOException e){
-//            System.out.println("IOException in registerHandler: " + e);
-//            e.printStackTrace();
-//        }
+    public void handle(HttpExchange exchange) {
+        try {
+            try {
+                //GET
+                if (exchange.getRequestMethod().equalsIgnoreCase("get")) {
+
+                    Headers header = exchange.getRequestHeaders();
+
+                    //AuthToken
+                    if (header.containsKey("Authorization")) {
+
+                        //Validate Authtoken
+                        String token = header.getFirst("Authorization");
+                        AuthRequest aRequest = new AuthRequest(token);
+                        AuthService aService = new AuthService();
+                        AuthResult aResult = aService.authenticateUser(aRequest);
+
+                        //Get the URL parameters/Setup
+                        String urlPath = exchange.getRequestURI().toString();
+                        String[] segments = urlPath.split("/");
+                        int urlParams = segments.length;
+                        Gson gson = new Gson();
+
+                        //ALL USERS
+                        if (urlParams == 2) {
+                            PersonsResult result;
+
+                            if(!aResult.isSuccess()){
+                                exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                                result = new PersonsResult(aResult.getMessage(), false);
+                            }
+                            else{
+                                PersonsEvent request = new PersonsEvent(aResult.getPersonID());
+                                PersonsService service = new PersonsService();
+                                result = service.getAllPersons(request);
+
+                                //Success: 200
+                                if(result.isSuccess()){
+                                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                                }
+                                //Error: 400
+                                else{
+                                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                                }
+                            }
+
+                            Writer respBody = new OutputStreamWriter(exchange.getResponseBody());
+                            gson.toJson(result, respBody);
+                            respBody.close();
+                        }
+
+                        //SPECIFIC USER
+                        else if (urlParams == 3) {
+                            PersonResult result;
+
+                            if(!aResult.isSuccess()){
+                                exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                                result = new PersonResult(aResult.getMessage(), false);
+                            }
+                            else{
+                                String personID = segments[2];
+                                PersonEvent request = new PersonEvent(personID,aResult.getPersonID());
+                                PersonService service = new PersonService();
+                                result = service.getPerson(request);
+
+                                //Success: 200
+                                if(result.isSuccess()){
+                                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                                }
+                                //Error: 400
+                                else{
+                                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                                }
+                            }
+                            Writer respBody = new OutputStreamWriter(exchange.getResponseBody());
+                            gson.toJson(result, respBody);
+                            respBody.close();
+                        }
+                    }
+                    //!AuthToken: 400
+                    else {
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                        exchange.getResponseBody().close();
+                    }
+                }
+                //Faulty Request: 404
+                else {
+                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
+                    exchange.getResponseBody().close();
+                }
+            }
+            //Internal Error: 500
+            catch (IOException e) {
+                exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
+                exchange.getResponseBody().close();
+                e.printStackTrace();
+            }
+        }
+        //IOException
+        catch(IOException e){
+            System.out.println("IOException in personHandler: " + e);
+            e.printStackTrace();
+        }
     }
 }

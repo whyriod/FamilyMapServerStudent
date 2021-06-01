@@ -1,7 +1,6 @@
 import java.io.*;
 import java.net.*;
 import java.sql.Connection;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.sun.net.httpserver.*;
 import dao.*;
@@ -13,7 +12,6 @@ import handler.User.eventHandler;
 import handler.User.loginHandler;
 import handler.User.personHandler;
 import handler.User.registerHandler;
-import model.Event;
 
 
 /***
@@ -52,11 +50,6 @@ public class Server {
         eDAO.createTable();
         pDAO.createTable();
         uDAO.createTable();
-
-        aDAO.clear();
-        eDAO.clear();
-        pDAO.clear();
-        uDAO.clear();
 
         db.closeConnection(true);
     }

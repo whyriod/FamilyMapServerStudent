@@ -23,11 +23,11 @@ public class LoginService {
 
 
     /***
-     * Setups Database Connection, and initialize needed DAO's.
+     * Sets up Database Connection, and initialize needed DAO's.
      *
      * @throws DataAccessException - Database Connection errors
      */
-    public void setUp() throws DataAccessException, ClassNotFoundException {
+    private void setUp() throws DataAccessException, ClassNotFoundException {
 
         db = new Database();
         Connection c = db.getConnection();
@@ -66,7 +66,7 @@ public class LoginService {
                     login = new LoginResult("Error: Invalid username or password",false);
                 }
 
-                //Commit Changes
+                //Close Connection
                 db.closeConnection(true);
             }
             //Login failed

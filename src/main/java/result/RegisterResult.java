@@ -9,8 +9,8 @@ public class RegisterResult {
     private String authtoken;
     private String username;
     private String personID;
-    private boolean success;
     private String message;
+    private boolean success;
 
 
 

@@ -2,7 +2,6 @@ package dao;
 
 import model.Authtoken;
 import java.sql.*;
-import java.util.UUID;
 
 /***
  * Performs the following SQL Statements on the Authtoken Table:
@@ -10,6 +9,7 @@ import java.util.UUID;
  * Drop Table
  * Select (Single)
  * Insert (Single)
+ * Delete (Associated User)
  * Delete (All)
  */
 public class AuthTokenDAO {
@@ -150,6 +150,31 @@ public class AuthTokenDAO {
         //SQL Error
         catch (SQLException e) {
             throw new DataAccessException("Unable to create token: " + e);
+        }
+    }
+
+    /***
+     * (Delete)
+     * Takes a username. Deletes tokens who have that associated username.
+     *
+     * @param asscoiatedUsername - username of token to delete.
+     * @throws DataAccessException - Unable to delete token: + e
+     */
+    public void deleteToken(String asscoiatedUsername) throws DataAccessException {
+
+        //Prepare Statements
+        String sql = "DELETE FROM Authtoken WHERE AssociatedUsername = ?;";
+
+        try (PreparedStatement stmt = c.prepareStatement(sql)) {
+            //Set Person values.
+            stmt.setString(1, asscoiatedUsername);
+
+            //Execute Query
+            stmt.executeUpdate();
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to delete token: " + e);
         }
     }
 

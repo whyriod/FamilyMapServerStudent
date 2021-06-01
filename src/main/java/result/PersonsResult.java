@@ -1,14 +1,16 @@
 package result;
 
-import model.Event;
+import model.Person;
+
+import java.util.ArrayList;
 
 /***
- * Creates a GetAllEventsResult object to return an array of event objects
+ * Creates a GetAllPersonsResult object to return an array of person objects
  * based on db operation.
  */
-public class GetAllEventsResult {
+public class PersonsResult {
 
-    private Event[] data;
+    private ArrayList<Person> data;
     private String message;
     private boolean success;
 
@@ -16,10 +18,10 @@ public class GetAllEventsResult {
 
     /***
      * Success Constructor
-     * @param data - Array of Event Objects
+     * @param data - [Array of Person objects]
      * @param success - Boolean of success
      */
-    public GetAllEventsResult(Event[] data, boolean success) {
+    public PersonsResult(ArrayList<Person> data, boolean success) {
         this.data = data;
         this.success = success;
     }
@@ -31,16 +33,16 @@ public class GetAllEventsResult {
      * @param message - “Error: [Description of the error]”
      * @param success - Boolean of success
      */
-    public GetAllEventsResult(String message,boolean success) {
+    public PersonsResult(String message, boolean success) {
         this.message = message;
         this.success = success;
     }
 
-    public Event[] getData() {
+    public ArrayList<Person> getData() {
         return data;
     }
 
-    public void setData(Event[] data) {
+    public void setData(ArrayList<Person> data) {
         this.data = data;
     }
 

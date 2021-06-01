@@ -4,7 +4,7 @@ package request;
  * Creates a request to get all events related to a personID based on the
  * provided AuthToken. This is found in the reqBody.
  */
-public class GetAllEventsRequest {
+public class EventsRequest {
 
     private String personID;
 
@@ -15,15 +15,15 @@ public class GetAllEventsRequest {
      * 
      * @param personID - The personID passed in.
      */
-    public GetAllEventsRequest(String personID) {
+    public EventsRequest(String personID) {
         this.personID = personID;
     }
 
-    public String getpersonID() {
+    public String getPersonID() {
         return personID;
     }
 
-    public void setpersonID(String personID) {
+    public void setPersonID(String personID) {
         this.personID = personID;
     }
 }

@@ -22,7 +22,7 @@ public class loginHandler implements HttpHandler {
 
 
     /***
-     * Routes to login service. Reports result
+     * Routes to LoginService. Reports result
      *
      * @param exchange - Exchange object from Server
      */

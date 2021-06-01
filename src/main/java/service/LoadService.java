@@ -24,11 +24,11 @@ public class LoadService {
 
 
     /***
-     * Setups Database Connection, and initialize needed DAO's.
+     * Sets up Database Connection, and initialize needed DAO's.
      *
      * @throws DataAccessException - Database Connection errors
      */
-    public void setUp() throws DataAccessException, ClassNotFoundException {
+    private void setUp() throws DataAccessException, ClassNotFoundException {
 
         db = new Database();
         Connection c = db.getConnection();
@@ -83,7 +83,7 @@ public class LoadService {
                         userCount++;
                     }
 
-                    //Commit changes
+                    //Close Connection
                     db.closeConnection(true);
 
                     //Create result object

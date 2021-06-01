@@ -19,11 +19,11 @@ public class ClearService {
 
 
     /***
-     * Setups Database Connection, and initialize needed DAO's.
+     * Sets up Database Connection, and initialize needed DAO's.
      *
      * @throws DataAccessException - Database Connection errors
      */
-    public void setUp() throws DataAccessException {
+    private void setUp() throws DataAccessException {
 
         db = new Database();
         Connection c = db.getConnection();
@@ -47,7 +47,6 @@ public class ClearService {
         ClearResult clear;
 
         try{
-            //Attempt to Clear
             try{
                 //Setup and clear tables
                 setUp();
@@ -56,9 +55,9 @@ public class ClearService {
                 pDAO.clear();
                 uDAO.clear();
 
-                //Commit changes
+                //Close Connection
                 db.closeConnection(true);
-                clear = new ClearResult("Clear succeeded.",true);
+                clear = new ClearResult("clear succeeded",true);
             }
             //Clear Failed
             catch (DataAccessException e) {

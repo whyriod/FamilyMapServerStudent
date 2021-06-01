@@ -14,7 +14,7 @@ public class fileHandler implements HttpHandler {
 
 
     /***
-     * Servers the client the webpage (web/index.html)
+     * Serves the client the webpage (web/index.html)
      *
      * @param exchange - The exchange object passed by the server.
      */
@@ -38,15 +38,17 @@ public class fileHandler implements HttpHandler {
                     //File Found: 200
                     if(file.exists()){
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-                        OutputStream respBody = exchange.getResponseBody();
-                        Files.copy(file.toPath(),respBody);
-                        respBody.close();
                     }
-                    //!File: 400
+                    //!File: 404
                     else{
-                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
-                        exchange.getResponseBody().close();
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
+                        filePath = "web/HTML/404.html";
+                        file = new File(filePath);
                     }
+
+                    OutputStream respBody = exchange.getResponseBody();
+                    Files.copy(file.toPath(),respBody);
+                    respBody.close();
                 }
                 //Faulty request: 404
                 else{

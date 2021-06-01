@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 /***
  * The Person class is a representation of the Person sqlite table
  */
@@ -101,5 +103,22 @@ public class Person {
 
     public void setSpouseID(String spouseID) {
         this.spouseID = spouseID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
+        Person person = (Person) o;
+        return this.personID.equals(person.getPersonID());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 11;
+        for(int i = 0; i < this.personID.length();i++){
+            hash = this.personID.charAt(i) * hash;
+        }
+        return hash/7;
     }
 }

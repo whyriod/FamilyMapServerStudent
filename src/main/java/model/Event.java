@@ -114,4 +114,21 @@ public class Event {
     public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
+        Person person = (Person) o;
+        return this.eventID.equals(person.getPersonID());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 11;
+        for(int i = 0; i < this.eventID.length();i++){
+            hash = this.eventID.charAt(i) * hash;
+        }
+        return hash/7;
+    }
 }

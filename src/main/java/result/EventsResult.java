@@ -1,14 +1,16 @@
 package result;
 
-import passoffmodels.Person;
+import model.Event;
+
+import java.util.ArrayList;
 
 /***
- * Creates a GetAllPersonsResult object to return an array of person objects
+ * Creates a GetAllEventsResult object to return an array of event objects
  * based on db operation.
  */
-public class GetAllPersonsResult {
+public class EventsResult {
 
-    private Person[] data;
+    private ArrayList<Event> data;
     private String message;
     private boolean success;
 
@@ -16,10 +18,10 @@ public class GetAllPersonsResult {
 
     /***
      * Success Constructor
-     * @param data - [Array of Person objects]
+     * @param data - Array of Event Objects
      * @param success - Boolean of success
      */
-    public GetAllPersonsResult(Person [] data, boolean success) {
+    public EventsResult(ArrayList<Event> data, boolean success) {
         this.data = data;
         this.success = success;
     }
@@ -31,16 +33,16 @@ public class GetAllPersonsResult {
      * @param message - “Error: [Description of the error]”
      * @param success - Boolean of success
      */
-    public GetAllPersonsResult(String message, boolean success) {
+    public EventsResult(String message, boolean success) {
         this.message = message;
         this.success = success;
     }
 
-    public Person[] getData() {
+    public ArrayList<Event> getData() {
         return data;
     }
 
-    public void setData(Person[] data) {
+    public void setData(ArrayList<Event> data) {
         this.data = data;
     }
 

@@ -22,7 +22,7 @@ public class registerHandler implements HttpHandler {
 
 
     /***
-     * Routes to register service. Reports result.
+     * Routes to RegisterService. Reports result.
      *
      * @param exchange - Exchange object from Server
      */

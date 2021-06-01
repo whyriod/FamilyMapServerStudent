@@ -4,9 +4,10 @@ package request;
  * Creates a request to get a specific event by its eventID.
  * EventID found in the URL.
  */
-public class GetEventRequest {
+public class EventRequest {
 
     private String eventID;
+    private String userPersonID;
 
 
 
@@ -15,8 +16,9 @@ public class GetEventRequest {
      *
      * @param eventID - ID of the requested event.
      */
-    public GetEventRequest(String eventID) {
+    public EventRequest(String eventID, String userPersonID) {
         this.eventID = eventID;
+        this.userPersonID = userPersonID;
     };
 
     public String getEventID() {
@@ -25,5 +27,13 @@ public class GetEventRequest {
 
     public void setEventID(String eventID) {
         this.eventID = eventID;
+    }
+
+    public String getUserPersonID() {
+        return userPersonID;
+    }
+
+    public void setUserPersonID(String userPersonID) {
+        this.userPersonID = userPersonID;
     }
 }

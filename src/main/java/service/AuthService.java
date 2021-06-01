@@ -6,9 +6,12 @@ import model.Person;
 import model.User;
 import request.AuthRequest;
 import result.AuthResult;
-import result.RegisterResult;
 import java.sql.Connection;
 
+/***
+ * Used in Event and Person services to authenticate that the user
+ * has the correct authToken.
+ */
 public class AuthService {
 
     private Database db;
@@ -16,7 +19,15 @@ public class AuthService {
     private PersonDAO pDAO;
     private UserDAO uDAO;
 
-    public void setUp() throws DataAccessException, ClassNotFoundException {
+
+
+
+    /***
+     * Sets up Database Connection, and initialize needed DAO's.
+     *
+     * @throws DataAccessException - Database Connection errors
+     */
+    private void setUp() throws DataAccessException, ClassNotFoundException {
 
         db = new Database();
         Connection c = db.getConnection();
@@ -24,6 +35,9 @@ public class AuthService {
         pDAO = new PersonDAO(c);
         uDAO = new UserDAO(c);
     }
+
+
+
 
     /***
      * Authenticate User with their Authtoken.
@@ -40,7 +54,7 @@ public class AuthService {
                 setUp();
                 Authtoken token = aDAO.fetchToken(r.getAuthtoken());
 
-                //They are authenticated
+                //Authenticated
                 if(token != null){
                     User user = uDAO.fetchUser(token.getusername());
                     Person person = pDAO.fetchPerson(user.getPersonID());
@@ -48,26 +62,27 @@ public class AuthService {
                     result = new AuthResult(user.getUsername(),person.getPersonID(),
                             r.getAuthtoken(),true);
                 }
+                //!Authenticated
                 else{
-                    result = new AuthResult("Unable to Authenticate",false);
+                    result = new AuthResult("Error: Unable to Authenticate",false);
                 }
-                //Commit changes
+                //Close Connection
                 db.closeConnection(false);
-                return result;
             }
 
-            //Clear Failed
+            //Authentication failed
             catch (ClassNotFoundException | DataAccessException e) {
                 //Rollback changes
+                result = new AuthResult("Error: " + e,false);
                 db.closeConnection(false);
                 e.printStackTrace();
             }
         }
         //Connection close failed
         catch(DataAccessException e){
+            result = new AuthResult("Error: " + e,false);
             e.printStackTrace();
         }
-
-        return null;
+        return result;
     }
 }

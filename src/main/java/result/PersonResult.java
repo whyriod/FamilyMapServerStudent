@@ -4,7 +4,7 @@ package result;
  * Creates a GetPersonResult object to return a specific person
  * based on db operation.
  */
-public class GetPersonResult {
+public class PersonResult {
 
     private String personID;
     private String associatedUsername;
@@ -31,8 +31,8 @@ public class GetPersonResult {
      * @param spouseID - ID of spouse
      * @param success - Boolean of success
      */
-    public GetPersonResult(String personID, String associatedUsername, String firstName, String lastName, String gender,
-                           String fatherID, String motherID, String spouseID, boolean success) {
+    public PersonResult(String personID, String associatedUsername, String firstName, String lastName, String gender,
+                        String fatherID, String motherID, String spouseID, boolean success) {
         this.personID = personID;
         this.associatedUsername = associatedUsername;
         this.firstName = firstName;
@@ -51,7 +51,7 @@ public class GetPersonResult {
      * @param message - “Error: [Description of the error]”
      * @param success - Boolean of success
      */
-    public GetPersonResult(String message, boolean success) {
+    public PersonResult(String message, boolean success) {
         this.message = message;
         this.success = success;
     }

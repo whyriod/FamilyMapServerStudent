@@ -4,7 +4,7 @@ package result;
  * Creates a GetEventResult object to return a specific event
  * based on db operation.
  */
-public class GetEventResult {
+public class EventResult {
 
     private String eventID;
     private String eventType;
@@ -33,8 +33,8 @@ public class GetEventResult {
      * @param longitude - Coordinates of event
      * @param success - Boolean of success
      */
-    public GetEventResult(String eventID, String eventType, String personID, String associatedUsername, int year,
-                          String country, String city, float latitude, float longitude, boolean success) {
+    public EventResult(String eventID, String eventType, String personID, String associatedUsername, int year,
+                       String country, String city, float latitude, float longitude, boolean success) {
         this.eventID = eventID;
         this.eventType = eventType;
         this.personID = personID;
@@ -42,8 +42,8 @@ public class GetEventResult {
         this.year = year;
         this.country = country;
         this.city = city;
-        Latitude = latitude;
-        Longitude = longitude;
+        this.Latitude = latitude;
+        this.Longitude = longitude;
         this.success = success;
     }
 
@@ -54,7 +54,7 @@ public class GetEventResult {
      * @param message - “Error: [Description of the error]”
      * @param success - Boolean of success
      */
-    public GetEventResult(String message,boolean success) {
+    public EventResult(String message, boolean success) {
         this.message = message;
         this.success = success;
     }

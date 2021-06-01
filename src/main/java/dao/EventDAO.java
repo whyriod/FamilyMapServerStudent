@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * Select (Single)
  * Select (All)
  * Insert (Single)
+ * Delete (Associated User)
  * Delete (All)
  */
 public class EventDAO {
@@ -236,6 +237,33 @@ public class EventDAO {
         //SQL Error
         catch (SQLException e) {
             throw new DataAccessException("Unable to create event: " + e);
+        }
+    }
+
+
+
+    /***
+     * (Delete)
+     * Takes a username. Deletes Events who have that associated username.
+     *
+     * @param asscoiatedUsername - username of event to delete.
+     * @throws DataAccessException - Unable to delete event: + e
+     */
+    public void deleteEvent(String asscoiatedUsername) throws DataAccessException {
+
+        //Prepare Statements
+        String sql = "DELETE FROM Event WHERE AssociatedUsername = ?;";
+
+        try (PreparedStatement stmt = c.prepareStatement(sql)) {
+            //Set Person values.
+            stmt.setString(1, asscoiatedUsername);
+
+            //Execute Query
+            stmt.executeUpdate();
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to delete event: " + e);
         }
     }
 

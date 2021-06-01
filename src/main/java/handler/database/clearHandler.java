@@ -16,7 +16,7 @@ public class clearHandler implements HttpHandler {
 
 
     /***
-     * Routes to clear service. Reports result
+     * Routes to ClearService. Reports result
      *
      * @param exchange - The exchange object passed by the server.
      */
