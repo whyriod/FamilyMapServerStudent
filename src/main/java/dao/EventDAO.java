@@ -218,7 +218,7 @@ public class EventDAO {
 
         //Prepare Statements
         String sql = "INSERT INTO Event (EventID, EventType, PersonID, AssociatedUsername, " +
-                "Year, Country, City, Latitude,Longitude) VALUES(?,?,?,?,?,?,?,?,?);";
+                "Year, Country, City, Latitude, Longitude) VALUES(?,?,?,?,?,?,?,?,?);";
 
         try (PreparedStatement stmt = c.prepareStatement(sql)) {
             //Set Event values.

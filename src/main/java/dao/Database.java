@@ -3,7 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /***
  * This is from the class notes:
@@ -23,7 +22,6 @@ public class Database {
      * @throws DataAccessException - Unable to open database connection: + e
      */
     public Connection openConnection() throws DataAccessException {
-
         try{
             //The Structure for this Connection is driver:language:path
             //The path assumes you start in the root of your project unless given a non-relative path
@@ -71,7 +69,6 @@ public class Database {
      * @throws DataAccessException - Unable to close database connection: + e
      */
     public void closeConnection(boolean commit) throws DataAccessException {
-
         try {
             //Keep
             if (commit) {

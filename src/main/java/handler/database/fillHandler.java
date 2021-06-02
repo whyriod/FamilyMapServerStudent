@@ -39,12 +39,12 @@ public class fillHandler implements HttpHandler {
                     int gen;
 
                     //Gen passed in URL
-                    if (urlParams == 4) {
-                        gen = Integer.parseInt(segments[3]);
+                    if (urlParams == 3) {
+                        gen = 4;
                     }
                     //Default generations 4
                     else {
-                        gen = 4;
+                        gen = Integer.parseInt(segments[3]);
                     }
 
                     String username = segments[2];

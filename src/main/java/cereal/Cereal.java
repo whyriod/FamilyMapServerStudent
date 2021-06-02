@@ -3,13 +3,18 @@ package cereal;
 import java.io.*;
 
 /***
- * Read String from example notes
+ * Reads an input stream of Json into a string.
+ * From: Class notes
  */
 public class Cereal {
 
     /***
-    * The readString method shows how to read a String from an InputStream.
-    */
+     * Takes an inputStream and creates an InputStream read. Reads input Json
+     * to a string.
+     * @param is - Input input stream.
+     * @return - The stringified Json.
+     * @throws IOException
+     */
     public String readString(InputStream is) throws IOException {
         StringBuilder sb = new StringBuilder();
         InputStreamReader sr = new InputStreamReader(is);

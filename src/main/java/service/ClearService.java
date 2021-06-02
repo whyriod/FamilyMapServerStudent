@@ -57,7 +57,7 @@ public class ClearService {
 
                 //Close Connection
                 db.closeConnection(true);
-                clear = new ClearResult("clear succeeded",true);
+                clear = new ClearResult("Clear Succeeded.",true);
             }
             //Clear Failed
             catch (DataAccessException e) {

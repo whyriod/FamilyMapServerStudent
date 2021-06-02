@@ -3,9 +3,10 @@ package service;
 
 import dao.*;
 import model.Authtoken;
-import model.Person;
 import model.User;
+import request.FillRequest;
 import request.RegisterRequest;
+import result.FillResult;
 import result.RegisterResult;
 
 import java.sql.Connection;
@@ -65,29 +66,36 @@ public class RegisterService {
                                     r.getPassword(),r.getEmail(),r.getFirstName(),
                                     r.getLastName(),r.getGender());
 
-                    Person newPerson =
-                            new Person(newUser.getPersonID(),newUser.getUsername(),
-                                    newUser.getFirstName(), newUser.getLastName(), newUser.getGender(),
-                                    null,null,null);
 
                     Authtoken newToken =
                             new Authtoken(UUID.randomUUID().toString(),newUser.getUsername());
 
                     //Insert and commit changes.
                     uDAO.insertUser(newUser);
-                    pDAO.insertPerson(newPerson);
-                    aDAO.insertToken(newToken);
+                    db.closeConnection(true);
 
-                    register = new RegisterResult(newToken.getauthtoken(),newUser.getUsername(),
-                            newPerson.getPersonID(),true);
+                    FillRequest fillRequest = new FillRequest(newUser.getUsername(),4);
+                    FillService fillService = new FillService();
+                    FillResult fillResult = fillService.fillDatabase(fillRequest);
+
+                    if(fillResult.isSuccess()){
+                        setUp();
+                        aDAO.insertToken(newToken);
+                        db.closeConnection(true);
+
+                        register = new RegisterResult(newToken.getauthtoken(),newUser.getUsername(),
+                                newUser.getPersonID(),true);
+                    }
+                    else{
+                        register = new RegisterResult("Error: Could not create 4 generations",false);
+                    }
                 }
                 //!New User
                 else{
+                    db.closeConnection(false);
                     register = new RegisterResult("Error: User already registered", false);
                 }
 
-                //Close Connection
-                db.closeConnection(true);
             }
             //Register Failed
             catch (ClassNotFoundException | DataAccessException e) {

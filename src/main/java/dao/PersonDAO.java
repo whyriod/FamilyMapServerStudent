@@ -169,6 +169,36 @@ public class PersonDAO {
 
 
 
+
+    /***
+     * (Update)
+     *
+     * @param person - new person object to insert into the Database
+     * @throws DataAccessException - Unable to create person: + e
+     */
+    public void updateParents(String personID, String father, String mother) throws DataAccessException {
+
+        //Prepare Statements
+        String sql = "Update Person SET FatherID = ?, MotherID = ? " +
+                "Where personID = ?";
+
+        try (PreparedStatement stmt = c.prepareStatement(sql)) {
+            //Set Person values.
+            stmt.setString(1, father);
+            stmt.setString(2, mother);
+            stmt.setString(3, personID);
+
+            //Execute Query
+            stmt.executeUpdate();
+        }
+        //SQL Error
+        catch (SQLException e) {
+            throw new DataAccessException("Unable to update person: " + e);
+        }
+    }
+
+
+
     /***
      * (Delete)
      * Takes a username. Deletes persons who have that associated username.

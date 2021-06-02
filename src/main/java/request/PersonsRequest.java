@@ -4,7 +4,7 @@ package request;
  * Creates a request to get a all persons based on the personID.
  * PersonID found through authentication
  */
-public class PersonsEvent {
+public class PersonsRequest {
 
     private String personID;
 
@@ -15,7 +15,7 @@ public class PersonsEvent {
      *
      * @param personID - PersonID of the requested person.
      */
-    public PersonsEvent(String personID) {
+    public PersonsRequest(String personID) {
         this.personID = personID;
     }
 

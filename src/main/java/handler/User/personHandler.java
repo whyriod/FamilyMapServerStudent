@@ -4,12 +4,10 @@ import com.google.gson.Gson;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import model.Person;
 import request.AuthRequest;
-import request.PersonsEvent;
-import request.PersonEvent;
+import request.PersonsRequest;
+import request.PersonRequest;
 import result.AuthResult;
-import result.EventsResult;
 import result.PersonsResult;
 import result.PersonResult;
 import service.AuthService;
@@ -65,7 +63,7 @@ public class personHandler implements HttpHandler {
                                 result = new PersonsResult(aResult.getMessage(), false);
                             }
                             else{
-                                PersonsEvent request = new PersonsEvent(aResult.getPersonID());
+                                PersonsRequest request = new PersonsRequest(aResult.getPersonID());
                                 PersonsService service = new PersonsService();
                                 result = service.getAllPersons(request);
 
@@ -94,7 +92,7 @@ public class personHandler implements HttpHandler {
                             }
                             else{
                                 String personID = segments[2];
-                                PersonEvent request = new PersonEvent(personID,aResult.getPersonID());
+                                PersonRequest request = new PersonRequest(personID,aResult.getPersonID());
                                 PersonService service = new PersonService();
                                 result = service.getPerson(request);
 

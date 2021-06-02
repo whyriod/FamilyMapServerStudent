@@ -4,7 +4,7 @@ package request;
  * Creates a request to get a specific person based on the personID.
  * PersonID found in the URL.
  */
-public class PersonEvent {
+public class PersonRequest {
 
     private String personID;
     private String userPersonID;
@@ -17,7 +17,7 @@ public class PersonEvent {
      * @param personID - PersonID of the requested person.
      * @param userPersonID - The clients personID
      */
-    public PersonEvent(String personID, String userPersonID) {
+    public PersonRequest(String personID, String userPersonID) {
         this.personID = personID;
         this.userPersonID = userPersonID;
     }

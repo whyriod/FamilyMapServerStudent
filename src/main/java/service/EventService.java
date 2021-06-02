@@ -8,7 +8,7 @@ import result.EventResult;
 import service.shared.Relatives;
 
 import java.sql.Connection;
-import java.util.Set;
+import java.util.ArrayList;
 
 /***
  * Uses a recursive function to get all persons who are related to said person.
@@ -52,7 +52,7 @@ public class EventService {
                 setUp();
                 Person person = pDAO.fetchPerson(r.getUserPersonID());
                 Relatives rel = new Relatives();
-                Set<Person> relatives = rel.getRelatives(person, pDAO);
+                ArrayList<Person> relatives = rel.getRelatives(person, pDAO);
 
                 //See if the wanted person is a relative
                 Event wanted = eDAO.fetchEvent(r.getEventID());
@@ -66,7 +66,7 @@ public class EventService {
                 }
                 else{
                     result =
-                            new EventResult("Error: Unable to get person",false);
+                            new EventResult("Error: Unable to get event",false);
                 }
 
                 //Close Connection

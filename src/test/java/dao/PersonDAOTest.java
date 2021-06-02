@@ -44,7 +44,7 @@ class PersonDAOTest {
         //Test data
         Person person1 = new Person("Bob","Bob","Bob","Robert",
                 "M",null,null,null);
-        Person person2 = new Person("John","John","John","Johnson",
+        Person person2 = new Person("John","Bob","John","Johnson",
                 "M",null,null,null);
         Person person3 = new Person("Liz","Liz","Liz","Elizabeth",
                 "F",null,null,null);
@@ -170,6 +170,57 @@ class PersonDAOTest {
                 "M",null,null,null);
         assertThrows(DataAccessException.class, () ->{pDAO.insertPerson(actual);});
     }
+
+
+    /***
+     * Deletes persons associated with Bob
+     */
+    @Test
+    void deletePerson() throws DataAccessException {
+        pDAO.deletePerson("Bob");
+        assertNull(pDAO.fetchPerson("Bob"));
+        assertNull(pDAO.fetchPerson("John"));
+    }
+
+
+
+    /***
+     * Deletes persons associated with Bob. Checks to make sure
+     * that Elizabeth's were not deleted along with Bobs.
+     */
+    @Test
+    void deletePersonPersist() throws DataAccessException {
+        pDAO.deletePerson("Bob");
+        assertEquals("Elizabeth",pDAO.fetchPerson("Liz").getLastName());
+    }
+
+
+
+    /***
+     * Updates the mother and father of Bob and checks that it worked.
+     * (I only have 1 test, as it works or doesnt. If you try to update
+     * someone that doesnt exist, no error is throw, and null values are accepted)
+     */
+    @Test
+    void updatePerson() throws DataAccessException {
+        pDAO.updateParents("Bob","John","Liz");
+        assertEquals("John",pDAO.fetchPerson("Bob").getFatherID());
+        assertEquals("Liz",pDAO.fetchPerson("Bob").getMotherID());
+    }
+
+
+
+    /***
+     * Updates the mother and father of Bob and checks that it worked.
+     * Checks to make sure that Johns parents have not been updated
+     */
+    @Test
+    void updatePersonPersist() throws DataAccessException {
+        pDAO.updateParents("Bob","John","Liz");
+        assertNull(pDAO.fetchPerson("John").getFatherID());
+        assertNull(pDAO.fetchPerson("John").getMotherID());
+    }
+
 
 
     /***

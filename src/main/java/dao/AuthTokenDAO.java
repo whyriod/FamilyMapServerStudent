@@ -33,7 +33,7 @@ public class AuthTokenDAO {
     /***
      * Creates the Authtoken Table.
      *
-     * @throws DataAccessException - Unable to create Authtoken Table: + e
+     * @throws DataAccessException - Unable to create Authtoken Table: + e.
      */
     public void createTable() throws DataAccessException {
 
@@ -59,7 +59,7 @@ public class AuthTokenDAO {
      * Authtoken table is properly created. So dropping it is
      * useful.
      *
-     * @throws DataAccessException - Unable to drop Authtoken table: + e
+     * @throws DataAccessException - Unable to drop Authtoken table: + e.
      */
     public void dropTable() throws DataAccessException{
 
@@ -85,7 +85,7 @@ public class AuthTokenDAO {
      *
      * @param authtoken - The authtoken to check for.
      * @return token - The authtoken object for the row found.
-     * @throws DataAccessException - Unable to find token: + e
+     * @throws DataAccessException - Unable to find token: + e.
      */
     public Authtoken fetchToken(String authtoken) throws DataAccessException {
 
@@ -133,7 +133,7 @@ public class AuthTokenDAO {
      * Takes a username String. Inserts a new authtoken value for the user.
      *
      * @param token - Authtoken to put into database
-     * @throws DataAccessException - Unable to create token: + e
+     * @throws DataAccessException - Unable to create token: + e.
      */
     public void insertToken(Authtoken token) throws DataAccessException {
 
@@ -158,7 +158,7 @@ public class AuthTokenDAO {
      * Takes a username. Deletes tokens who have that associated username.
      *
      * @param asscoiatedUsername - username of token to delete.
-     * @throws DataAccessException - Unable to delete token: + e
+     * @throws DataAccessException - Unable to delete token: + e.
      */
     public void deleteToken(String asscoiatedUsername) throws DataAccessException {
 
@@ -184,7 +184,7 @@ public class AuthTokenDAO {
      * (Delete)
      * Clears all Authtokens from the Authtoken table.
      *
-     * @throws DataAccessException - Unable to clear tokens: + e
+     * @throws DataAccessException - Unable to clear tokens: + e.
      */
     public void clear() throws DataAccessException {
 

@@ -169,6 +169,32 @@ class AuthTokenDAOTest {
 
 
     /***
+     * Deletes tokens associated with Bob
+     * (I only have 1 test, as it does, or it doesnt work)
+     */
+    @Test
+    void deleteTokenPass() throws DataAccessException {
+        aDAO.deleteToken("Bob");
+        assertNull(aDAO.fetchToken("1111"));
+        assertNull(aDAO.fetchToken("3333"));
+    }
+
+
+
+    /***
+     * Deletes tokens associated with John. Checks to make sure
+     * that Bobs were not deleted along with Johns.
+     */
+    @Test
+    void deleteTokenPersist() throws DataAccessException {
+        aDAO.deleteToken("John");
+        assertEquals("Bob",aDAO.fetchToken("1111").getusername());
+        assertEquals("Bob",aDAO.fetchToken("3333").getusername());
+    }
+
+
+
+    /***
      * Test that the database returns a null when looking for
      * Bobs token "3333" after clearning the database.
      *

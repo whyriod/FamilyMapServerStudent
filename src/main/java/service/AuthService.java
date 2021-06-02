@@ -64,7 +64,7 @@ public class AuthService {
                 }
                 //!Authenticated
                 else{
-                    result = new AuthResult("Error: Unable to Authenticate",false);
+                    result = new AuthResult("Error: Invalid auth token",false);
                 }
                 //Close Connection
                 db.closeConnection(false);

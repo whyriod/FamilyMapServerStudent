@@ -32,11 +32,17 @@ public class clearHandler implements HttpHandler {
                     ClearResult result = clear.clearDatabase();
 
                     //Success: 200
-                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-                    Writer respBody = new OutputStreamWriter(exchange.getResponseBody());
-                    Gson gson = new Gson();
-                    gson.toJson(result, respBody);
-                    respBody.close();
+                    if(result.isSuccess()){
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                        Writer respBody = new OutputStreamWriter(exchange.getResponseBody());
+                        Gson gson = new Gson();
+                        gson.toJson(result, respBody);
+                        respBody.close();
+                    }
+                    else{
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
+                        exchange.getResponseBody().close();
+                    }
                 }
 
                 //Faulty request: 404

@@ -61,7 +61,7 @@ public class eventHandler implements HttpHandler {
                                 EventsService service = new EventsService();
                                 result = service.getAllEvents(request);
 
-                                //Success: 200
+                                //Success:200
                                 if(result.isSuccess()){
                                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                                 }
@@ -125,7 +125,7 @@ public class eventHandler implements HttpHandler {
         }
         //IOException
         catch(IOException e){
-            System.out.println("IOException in registerHandler: " + e);
+            System.out.println("IOException in eventHandler: " + e);
             e.printStackTrace();
         }
     }

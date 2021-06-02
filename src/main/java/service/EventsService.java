@@ -52,11 +52,10 @@ public class EventsService {
                 setUp();
                 Person person = pDAO.fetchPerson(r.getPersonID());
                 Relatives rel = new Relatives();
-                Set<Person> relatives = rel.getRelatives(person, pDAO);
+                ArrayList<Person> relatives = rel.getRelatives(person, pDAO);
 
                 //Get events of the relatives
-                Set<Event> familyEvents = rel.getFamilyEvents(relatives, eDAO);
-                ArrayList<Event> events = new ArrayList<>(familyEvents);
+                ArrayList<Event> events = rel.getFamilyEvents(relatives, eDAO);
                 result = new EventsResult(events,true);
 
                 //Close Connection

@@ -2,13 +2,12 @@ package service;
 
 import dao.*;
 import model.Person;
-import request.PersonsEvent;
+import request.PersonsRequest;
 import result.PersonsResult;
 import service.shared.Relatives;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Set;
 
 /***
  * Uses a recursive function to get all persons who are related to said person.
@@ -39,7 +38,7 @@ public class PersonsService {
      * @param r getAllEventsRequest
      * @return getAllEventsResult object
      */
-    public PersonsResult getAllPersons (PersonsEvent r){
+    public PersonsResult getAllPersons (PersonsRequest r){
 
         PersonsResult result;
 
@@ -49,11 +48,9 @@ public class PersonsService {
                 setUp();
                 Person person = pDAO.fetchPerson(r.getPersonID());
                 Relatives get = new Relatives();
-                Set<Person> relatives = get.getRelatives(person, pDAO);
+                ArrayList<Person> relatives = get.getRelatives(person, pDAO);
 
-                //Convert Set to Array
-                ArrayList<Person> family = new ArrayList<Person>(relatives);
-                result = new PersonsResult(family,true);
+                result = new PersonsResult(relatives,true);
 
                 //Close Connection
                 db.closeConnection(true);

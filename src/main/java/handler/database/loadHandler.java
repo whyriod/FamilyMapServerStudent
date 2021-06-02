@@ -41,8 +41,14 @@ public class loadHandler implements HttpHandler {
                     LoadService load = new LoadService();
                     LoadResult result = load.loadDatabase(request);
 
-                    //Send Response: 200
-                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    //Success: 200
+                    if(result.isSuccess()){
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    }
+                    //Error: 400
+                    else{
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                    }
                     Writer respBody = new OutputStreamWriter(exchange.getResponseBody());
                     gson.toJson(result, respBody);
                     respBody.close();
@@ -62,7 +68,7 @@ public class loadHandler implements HttpHandler {
         }
         //IOException
         catch(IOException e){
-            System.out.println("IOException in clearHandler: " + e);
+            System.out.println("IOException in loadHandler: " + e);
             e.printStackTrace();
         }
     }

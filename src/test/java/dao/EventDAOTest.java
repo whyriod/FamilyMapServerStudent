@@ -198,6 +198,31 @@ class EventDAOTest {
 
 
     /***
+     * Deletes events associated with Bob
+     */
+    @Test
+    void deleteEvent() throws DataAccessException {
+        eDAO.deleteEvent("Bob");
+        assertNull(eDAO.fetchEvent("1"));
+        assertNull(eDAO.fetchEvent("2"));
+    }
+
+
+
+    /***
+     * Deletes tokens associated with Ed. Checks to make sure
+     * that Bobs were not deleted along with Ed.
+     */
+    @Test
+    void deleteEventPersist() throws DataAccessException {
+        eDAO.deleteEvent("Ed");
+        assertEquals("USA",eDAO.fetchEvent("1").getCountry());
+        assertEquals("JPN",eDAO.fetchEvent("2").getCountry());
+    }
+
+
+
+    /***
      * Test that the database is cleared by checking
      * to see that eventID 1 is gone.
      *

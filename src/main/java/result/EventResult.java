@@ -13,8 +13,8 @@ public class EventResult {
     private int year;
     private String country;
     private String city;
-    private float Latitude;
-    private float Longitude;
+    private float latitude;
+    private float longitude;
     private String message;
     private boolean success;
 
@@ -37,13 +37,14 @@ public class EventResult {
                        String country, String city, float latitude, float longitude, boolean success) {
         this.eventID = eventID;
         this.eventType = eventType;
+
         this.personID = personID;
         this.associatedUsername = associatedUsername;
         this.year = year;
         this.country = country;
         this.city = city;
-        this.Latitude = latitude;
-        this.Longitude = longitude;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.success = success;
     }
 
@@ -115,20 +116,20 @@ public class EventResult {
         this.city = city;
     }
 
-    public float getLatitude() {
-        return Latitude;
+    public float getlatitude() {
+        return latitude;
     }
 
-    public void setLatitude(float latitude) {
-        Latitude = latitude;
+    public void setlatitude(float latitude) {
+        latitude = latitude;
     }
 
     public float getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(float longitude) {
-        Longitude = longitude;
+        longitude = longitude;
     }
 
     public String getMessage() {

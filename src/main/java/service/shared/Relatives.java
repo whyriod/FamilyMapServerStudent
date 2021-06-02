@@ -4,10 +4,7 @@ import dao.*;
 import model.Event;
 import model.Person;
 
-import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /***
  * A group of shared functions that relate to personServices and eventServices
@@ -25,8 +22,8 @@ public class Relatives {
      * @return relatives - A set of all relatives.
      * @throws DataAccessException - Database get errors
      */
-    public Set<Person> getRelatives(Person person, PersonDAO pDAO) throws DataAccessException {
-        Set<Person> relatives = new HashSet<>();
+    public ArrayList<Person> getRelatives(Person person, PersonDAO pDAO) throws DataAccessException {
+        ArrayList<Person> relatives = new ArrayList<>();
         Relatives service = new Relatives();
         service.getRelativesHelper(relatives, person, pDAO);
         return relatives;
@@ -42,7 +39,7 @@ public class Relatives {
      *
      * @throws DataAccessException - Database get errors
      */
-    public void getRelativesHelper(Set<Person> relatives, Person person, PersonDAO pDAO) throws DataAccessException {
+    private void getRelativesHelper(ArrayList<Person> relatives, Person person, PersonDAO pDAO) throws DataAccessException {
 
         //Check to make sure that the person exists.
         if(person != null && !contains(relatives,person)){
@@ -73,7 +70,7 @@ public class Relatives {
      * @param person - The person whe are checking as a relative
      * @return - True for related, false for not.
      */
-    public boolean contains(Set<Person> relatives, Person person){
+    public boolean contains(ArrayList<Person> relatives, Person person){
 
         //If they are the same pointer, true
         for(Person p: relatives){
@@ -94,12 +91,13 @@ public class Relatives {
      * @return - A set of all events for a family.
      * @throws DataAccessException - Throws if a DB issue. Caught in Service classes.
      */
-    public Set<Event> getFamilyEvents(Set<Person> relatives, EventDAO eDAO) throws DataAccessException {
+    public ArrayList<Event> getFamilyEvents(ArrayList<Person> relatives, EventDAO eDAO) throws DataAccessException {
 
-        Set<Event> familyEvents = new HashSet<>();
-        ArrayList<Event> personalEvents;
+        ArrayList<Event> familyEvents = new ArrayList<>();
+        ArrayList<Event> personalEvents = new ArrayList<>();
 
         for(Person p: relatives){
+            personalEvents.clear();
             personalEvents = eDAO.fetchEvents(p.getPersonID());
             for(Event e: personalEvents){
                 familyEvents.add(e);

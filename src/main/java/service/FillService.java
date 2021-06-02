@@ -119,13 +119,17 @@ public class FillService {
                         aDAO.deleteToken(user.getUsername());
                         eDAO.deleteEvent(user.getUsername());
                         pDAO.deletePerson(user.getUsername());
-                        Person person = new Person(user.getPersonID(),user.getUsername(),user.getFirstName(),
-                                user.getLastName(),user.getGender(),null,null,null);
 
-                        pDAO.insertPerson(person);
+                        int people = 0;
+                        for(int i = 0; i <= r.getGenerations(); i++){
+                            people += Math.pow(2,i);
+                        }
 
-                        generatePeople(person, r.getGenerations());
-                        result = new FillResult("Successfully added X persons and Y events to the database.",true);
+                        int events = people * 3;
+
+                        generatePeople(user, r.getGenerations());
+                        result = new FillResult("Successfully added " + people + " persons and " +
+                                + events + " events to the database.",true);
                     }
                     //User does not exist
                     else{
@@ -155,11 +159,16 @@ public class FillService {
 
     /***
      *
-     * @param person
+     * @param user
      * @param gen
      * @throws DataAccessException
      */
-    public void generatePeople(Person person, int gen) throws DataAccessException {
+    private void generatePeople(User user, int gen) throws DataAccessException {
+
+        Person person = new Person(user.getPersonID(),user.getUsername(),user.getFirstName(),
+                user.getLastName(),user.getGender(),null,null,null);
+
+        pDAO.insertPerson(person);
 
         //Atleast 18, But not older than 30.
         int id = rand.nextInt(1000);
@@ -173,23 +182,21 @@ public class FillService {
 
         //Baptism, 8 years later.
 
-        id = rand.nextInt(1000);
         year = birth.getYear() + 8;
         location = rand.nextInt(locations.getData().size());
 
         Event baptism =
-                new Event(person.getPersonID() + "_" + "baptism" + id, "baptism", person.getPersonID(),
+                new Event(person.getPersonID() + "_" + "baptism", "baptism", person.getPersonID(),
                         person.getAssociatedUsername(),year,locations.getData().get(location).getCountry(),
                         locations.getData().get(location).getCity(),locations.getData().get(location).getLatitude(),
                         locations.getData().get(location).getLongitude());
 
         //Graduate at 18 years old.
-        id = rand.nextInt(1000);
         year = birth.getYear() + 18;
         location = rand.nextInt(locations.getData().size());
 
         Event highSchool =
-                new Event(person.getPersonID() + "_" + "graduate_high_school" + id, "graduate_high_school",
+                new Event(person.getPersonID() + "_" + "graduate_high_school", "graduate_high_school",
                         person.getPersonID(), person.getAssociatedUsername(),year,locations.getData().get(location).getCountry(),
                         locations.getData().get(location).getCity(),locations.getData().get(location).getLatitude(),
                         locations.getData().get(location).getLongitude());
@@ -209,7 +216,7 @@ public class FillService {
      * @param birth
      * @throws DataAccessException
      */
-    public void generatePersons(Person person, int gen, Event birth) throws DataAccessException {
+    private void generatePersons(Person person, int gen, Event birth) throws DataAccessException {
 
         //If there are more generations to create.
         if(gen > 0){
@@ -238,79 +245,74 @@ public class FillService {
 
             Person male =
                     new Person(mPersonID,person.getAssociatedUsername(),mFirstName,
-                            mLastName,mGender,null,null,mPersonID);
+                            mLastName,mGender,null,null,fPersonID);
 
             //Birth
-            id = rand.nextInt(1000);
             //Mother is atleast 18, and no older than 50 when she gave birth.
             int year = birth.getYear() - (rand.nextInt(33) + 18);
             int location = rand.nextInt(locations.getData().size());
             Event fBirth =
-                    new Event(female.getPersonID() + "_" + "birth" + id, "birth", female.getPersonID(),
+                    new Event(female.getPersonID() + "_" + "birth", "birth", female.getPersonID(),
                             person.getAssociatedUsername(),year,locations.getData().get(location).getCountry(),
                             locations.getData().get(location).getCity(),locations.getData().get(location).getLatitude(),
                             locations.getData().get(location).getLongitude());
 
-            id = rand.nextInt(1000);
             //Was at max 6 years older than his wife, or at least 3 years younger.
             year = year + (rand.nextInt(7) - rand.nextInt(4));
             location = rand.nextInt(locations.getData().size());
             Event mBirth =
-                    new Event(male.getPersonID() + "_" + "birth" + id, "birth", male.getPersonID(),
+                    new Event(male.getPersonID() + "_" + "birth", "birth", male.getPersonID(),
                             person.getAssociatedUsername(),year,locations.getData().get(location).getCountry(),
                             locations.getData().get(location).getCity(),locations.getData().get(location).getLatitude(),
                             locations.getData().get(location).getLongitude());
 
-
             //Marriage
-            id = rand.nextInt(1000);
             //Mother was married after 18 sometime before her child's birth.
-            year =  (fBirth.getYear() + 18) + rand.nextInt(birth.getYear() - (fBirth.getYear() + 18));
+            year =  (fBirth.getYear() + 18) + rand.nextInt((birth.getYear() - fBirth.getYear() + 18));
             location = rand.nextInt(locations.getData().size());
 
             Event fMarriage =
-                    new Event(female.getPersonID() + "_" + "marriage" + id, "marriage", female.getPersonID(),
+                    new Event(female.getPersonID() + "_" + "marriage", "marriage", female.getPersonID(),
                             person.getAssociatedUsername(),year,locations.getData().get(location).getCountry(),
                             locations.getData().get(location).getCity(),locations.getData().get(location).getLatitude(),
                             locations.getData().get(location).getLongitude());
 
-            id = rand.nextInt(1000);
             Event mMarriage =
-                    new Event(male.getPersonID() + "_" + "marriage" + id, "marriage", male.getPersonID(),
+                    new Event(male.getPersonID() + "_" + "marriage", "marriage", male.getPersonID(),
                             person.getAssociatedUsername(),year,locations.getData().get(location).getCountry(),
                             locations.getData().get(location).getCity(),locations.getData().get(location).getLatitude(),
                             locations.getData().get(location).getLongitude());
 
             //Death
-            id = rand.nextInt(1000);
             //Died after first birth, sometime before they were 95
-            year = birth.getYear() + rand.nextInt(95 - birth.getYear() - fBirth.getYear());
+            year = birth.getYear() + rand.nextInt((95 - (birth.getYear() - fBirth.getYear())));
             if(year > 2021){
                 year = 2021;
             }
             location = rand.nextInt(locations.getData().size());
             Event fDeath =
-                    new Event(female.getPersonID() + "_" + "death" + id, "death", female.getPersonID(),
+                    new Event(female.getPersonID() + "_" + "death", "death", female.getPersonID(),
                             person.getAssociatedUsername(),year,locations.getData().get(location).getCountry(),
                             locations.getData().get(location).getCity(),locations.getData().get(location).getLatitude(),
                             locations.getData().get(location).getLongitude());
 
             //Death
-            id = rand.nextInt(1000);
             //Died after first birth, sometime before they were 90 (Men  live alittle shorter)
-            year = birth.getYear() + rand.nextInt(90 - birth.getYear() - mBirth.getYear());
+            year = birth.getYear() + rand.nextInt((90 - (birth.getYear() - mBirth.getYear())));
             if(year > 2021){
                 year = 2021;
             }
             location = rand.nextInt(locations.getData().size());
             Event mDeath =
-                    new Event(male.getPersonID() + "_" + "death" + id, "death", male.getPersonID(),
+                    new Event(male.getPersonID() + "_" + "death", "death", male.getPersonID(),
                             person.getAssociatedUsername(),year,locations.getData().get(location).getCountry(),
                             locations.getData().get(location).getCity(),locations.getData().get(location).getLatitude(),
                             locations.getData().get(location).getLongitude());
 
             pDAO.insertPerson(female);
             pDAO.insertPerson(male);
+
+            pDAO.updateParents(person.getPersonID(), male.getPersonID(),female.getPersonID());
 
             eDAO.insertEvent(fBirth);
             eDAO.insertEvent(fMarriage);
@@ -320,11 +322,8 @@ public class FillService {
             eDAO.insertEvent(mMarriage);
             eDAO.insertEvent(mDeath);
 
-            gen--;
-
-            generatePersons(male,gen,fBirth);
-            generatePersons(female,gen,mBirth);
-
+            generatePersons(male,gen-1,mBirth);
+            generatePersons(female,gen-1,fBirth);
         }
     }
 }
