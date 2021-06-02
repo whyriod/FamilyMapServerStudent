@@ -9,6 +9,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import request.FillRequest;
+import result.FillResult;
 
 import java.sql.Connection;
 
@@ -120,14 +122,39 @@ class FillServiceTest {
 
     /***
      * Checks that the fill service creates the proper number of users and events.
-     *
      */
     @Test
-    void fillDatabasePass() {
+    void fillDatabasePass() throws DataAccessException {
+        FillRequest request = new FillRequest("Bob", 1);
+        FillResult result = service.fillDatabase(request);
 
+        assertNotNull(pDAO.fetchPerson("Bob"));
+        //Check that mother and father were created
+        assertNotNull(pDAO.fetchPerson(pDAO.fetchPerson("Bob").getFatherID()));
+        assertNotNull(pDAO.fetchPerson(pDAO.fetchPerson("Bob").getMotherID()));
+
+        //Check that each have 3 events.
+        assertEquals(3,eDAO.fetchEvents("Bob").size());
+        assertEquals(3,eDAO.fetchEvents(pDAO.fetchPerson("Bob").getMotherID()).size());
+        assertEquals(3,eDAO.fetchEvents(pDAO.fetchPerson("Bob").getFatherID()).size());
     }
 
+    /***
+     * Check that the Service fails on an unregistered user, and
+     * that the service fails when the generation count is negative.
+     */
     @Test
     void fillDatabaseFail() {
+        FillRequest request = new FillRequest("JoeShmoe", 1);
+        FillResult result = service.fillDatabase(request);
+
+        assertFalse(result.isSuccess());
+        assertEquals("Error: User does not exist", result.getMessage());
+
+        request = new FillRequest("JoeShmoe", -1);
+        result = service.fillDatabase(request);
+
+        assertFalse(result.isSuccess());
+        assertEquals("Error: Generations not positive", result.getMessage());
     }
 }

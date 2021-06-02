@@ -106,7 +106,7 @@ public class FillService {
             try{
                 //Generations Negative
                 if(r.getGenerations() < 0){
-                    result = new FillResult("Error: Generations not positive",false);
+                    result = new FillResult("Error: Generations not positive" ,false);
                 }
                 //Generations Positive
                 else{
@@ -159,9 +159,9 @@ public class FillService {
 
     /***
      *
-     * @param user
-     * @param gen
-     * @throws DataAccessException
+     * @param user - user to generate for
+     * @param gen - generation count
+     * @throws DataAccessException - Problem with insertion occured.
      */
     private void generatePeople(User user, int gen) throws DataAccessException {
 
@@ -211,10 +211,12 @@ public class FillService {
 
     /***
      *
-     * @param person
-     * @param gen
-     * @param birth
-     * @throws DataAccessException
+     * @param person - current person
+     * @param gen - current generation cound
+     * @param birth - The birth event for the current person
+     *              (prevents having to make another db call)
+     *
+     * @throws DataAccessException - Error with insertion
      */
     private void generatePersons(Person person, int gen, Event birth) throws DataAccessException {
 
