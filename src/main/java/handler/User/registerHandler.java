@@ -57,6 +57,7 @@ public class registerHandler implements HttpHandler {
                     Writer respBody = new OutputStreamWriter(exchange.getResponseBody());
                     gson.toJson(result, respBody);
                     respBody.close();
+
                 }
 
                 //Faulty Request: 404
